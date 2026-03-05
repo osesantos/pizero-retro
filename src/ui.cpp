@@ -466,7 +466,7 @@ void UI::settingsMenu(Bus* nes)
                     drawText(items[Volume], window_x + 12, items_y[Volume] + text_padding);
                     break;
                 case Brightness:
-                    if (settings.brightness >= 5) settings.brightness -= 5;
+                    if (settings.brightness >= 10) settings.brightness -= 5;
                     snprintf(brightness_text, sizeof(brightness_text), "Brightness: %d%%", settings.brightness);
                     screen->fillRect(window_x + 10, items_y[Brightness], window_w - 19, item_height, SELECTED_BG_COLOR);
                     drawText(items[Brightness], window_x + 12, items_y[Brightness] + text_padding);
