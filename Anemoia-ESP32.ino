@@ -46,7 +46,6 @@ void setup()
         ledcWrite(BL_CHANNEL, 255);
     #endif
 
-    ui.initializeSettings();
     setupI2SDAC();
 
     // Initialize TFT screen
@@ -60,6 +59,7 @@ void setup()
 
     // Initialize microsd card
     if(!initSD()) while (true);
+    ui.initializeSettings();
 
     // Setup buttons
     initController();
