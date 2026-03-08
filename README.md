@@ -186,19 +186,13 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 4. Download the `SdFat` and `TFT_eSPI` libraries from <b> Tools → Manage Libraries </b>.
 
 ### Step 3 - Configure TFT_eSPI
-The emulator uses a custom display configuration for the ST7789 display.
+Copy and paste the TFT_eSPI configuration file into the TFT_eSPI folder.
 1. Navigate to your Arduino Libraries folder:
 (Default location): `Documents/Arduino/libraries/TFT_eSPI`
-2. Open `User_Setup_Select.h` in a text editor.
-3. Comment out `#include <User_Setup.h>` and any other setup includes and add `<User_Setups/Anemoia-ST7789.h>`:
-```C++
-// #include <User_Setup.h>
-#include <User_Setups/Anemoia-ST7789.h>
-```
-4. Copy the provided `Anemoia-ST7789.h` file from this repository into
-`TFT_eSPI/User_Setups/`. Optionally, edit the `#define` pins as desired.
+2. Copy the provided `User_Setup.h` file from this repository into
+`TFT_eSPI/` and overwrite the file. Optionally, edit the `#define` pins as desired.
 > [!NOTE]
-> If using a screen with the ILI9341 driver, open `Anemoia-ST7789.h` in a text editor and comment out `#define ST7789_DRIVER` and uncomment `#define ILI9341_DRIVER`.
+> If using a screen with the ILI9341 driver, open `User_Setup.h` in a text editor and comment out `#define ST7789_DRIVER` and uncomment `#define ILI9341_DRIVER`.
 > ```C++
 > // #define ST7789_DRIVER
 > #define ILI9341_DRIVER
