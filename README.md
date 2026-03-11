@@ -196,9 +196,26 @@ Press **Start + Select** simultaneously in a game to open the menu.
 
 ## Getting Started
 
-1. Build and upload the `Anemoia-ESP32.ino` program into the ESP32.
-2. Format your microSD card to `FAT32`.
-2. Put .nes game roms inside the root of a microSD card.
+### Option 1 - Web Flash (Recommended)
+No software installation required.
+
+1. Visit the [Web Flash](https://shim06.github.io/Anemoia-ESP32/) website.
+2. Connect your ESP32 via USB.
+3. Click **Flash** and select your ESP32's COM port.
+
+> [!NOTE]
+> Web flashing requires a Chromium-based browser (Chrome, Edge, Opera) with WebSerial support. Firefox is not supported.
+
+---
+
+### Option 2 - Build from Source
+
+1. Build and upload the `Anemoia-ESP32.ino` program into the ESP32 following the [How to build and upload](#how-to-build-and-upload) instructions below.
+
+---
+### After Flashing
+1. Format your microSD card to `FAT32`.
+2. Put .nes game roms inside the root of the microSD card.
 3. Insert the microSD card into the microSD card module.
 4. Power on the ESP32 and select a game from the file select menu.
 
