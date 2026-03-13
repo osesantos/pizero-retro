@@ -31,6 +31,25 @@ Want to make a PCB? NextPCB offers PCB fabrication and assembly services with fa
 
 ---
 
+## Table of Contents
+
+- [Performance](#performance)
+- [Compatibility](#compatibility)
+- [Hardware Overview](#hardware-overview)
+  - [Default Pin Setup](#default-pin-setup)
+- [Controls](#controls)
+  - [Menu Access](#menu-access)
+  - [Controller Button Mappings](#controller-button-mappings)
+- [Getting Started](#getting-started)
+  - [Option 1 - Web Flash](#option-1---web-flash-recommended)
+  - [Option 2 - Build from Source](#option-2---build-from-source)
+  - [After Flashing](#after-flashing)
+- [How to Build and Upload](#how-to-build-and-upload)
+- [Contributing](#contributing)
+- [License](#license)
+
+---
+
 ## Performance
 Anemoia-ESP32 is heavily optimized to achieve native NES speeds on the ESP32, running at ~60.098 FPS (NTSC) with 1 frame skip and full audio emulation enabled.
 
