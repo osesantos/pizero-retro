@@ -36,6 +36,7 @@ Want to make a PCB? NextPCB offers PCB fabrication and assembly services with fa
 - [Performance](#performance)
 - [Compatibility](#compatibility)
 - [Hardware Overview](#hardware-overview)
+  - [Where to Buy](#where-to-buy)
   - [Default Pin Setup](#default-pin-setup)
 - [Controls](#controls)
   - [Menu Access](#menu-access)
@@ -111,8 +112,22 @@ Anemoia-ESP32 requires a dual-core ESP32 with a minimum of 1 MB flash memory and
   - PS1 controller
   - PS2 controller
 
-### Default Pin Setup
-## TFT Display
+## Where to Buy
+These are the recommended parts to use for this project.<br>
+*These are affiliate links. Buying through them helps support me at no extra cost to you. Thank you for your support.*
+
+- [ESP32](https://s.click.aliexpress.com/e/_c3B4YJhz)
+- [240x320 ST7789 Display](https://s.click.aliexpress.com/e/_c2wkMWbV)
+- [PAM8403 Amplifier Module](https://s.click.aliexpress.com/e/_c3EWffgT)
+- [MicroSD Card Module](https://s.click.aliexpress.com/e/_c3ORlv7p)
+- [TP4056 Charging Module](https://s.click.aliexpress.com/e/_c2xSu8Mn)
+- [S09 Buck Converter](https://s.click.aliexpress.com/e/_c4LFB5JD)
+- [SS12F17 Slide Switch](https://s.click.aliexpress.com/e/_c3DdrYLV)
+- [12×12×7.3mm Tactile Push Buttons](https://s.click.aliexpress.com/e/_c3ABhrhV)
+- [40mm Speaker](https://s.click.aliexpress.com/e/_c4Ci9359)
+
+## Default Pin Setup
+### TFT Display
 | Signal   | ESP32 Pins     |
 |----------|----------------|
 | MOSI     | GPIO23         |
@@ -122,7 +137,7 @@ Anemoia-ESP32 requires a dual-core ESP32 with a minimum of 1 MB flash memory and
 | DC       | GPIO2          |
 | RST      | EN             |
 
-## MicroSD
+### MicroSD
 | Signal   | ESP32 Pins     |
 |----------|----------------|
 | MOSI     | GPIO13         |
@@ -130,12 +145,12 @@ Anemoia-ESP32 requires a dual-core ESP32 with a minimum of 1 MB flash memory and
 | SCLK     | GPIO14         |
 | CS       | GND            |
 
-## Audio Amplifier
+### Audio Amplifier
 | Signal   | ESP32 Pins     |
 |----------|----------------|
 | Input    | GPIO25         |
               
-## Controller
+### Controller
 There are currently three input methods: Tactile push buttons, an NES/SNES controller, and a PS1/PS2 controller.
 
 ### Tactile Push Buttons
