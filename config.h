@@ -54,8 +54,8 @@
 
 // If using an ESP32-S3
 // External DAC pin configuration
-#define I2S_BCLK_PIN   26   // Bit clock (BCLK)
-#define I2S_LRC_PIN    25   // Word select / Left-Right clock (LRC / WS)
-#define I2S_DOUT_PIN   16   // Serial data output (DIN)
+#define I2S_BCLK_PIN   38   // Bit clock (BCLK)
+#define I2S_LRC_PIN    39   // Word select / Left-Right clock (LRC / WS)
+#define I2S_DOUT_PIN   40   // Serial data output (DIN)
 
 #endif
