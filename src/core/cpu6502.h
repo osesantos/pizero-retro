@@ -78,29 +78,29 @@ private:
     void OAM_Write(uint8_t addr, uint8_t data);
 
 	// Addressing Modes
-	uint8_t ABS();	uint8_t IDX();
-	uint8_t ABX();	uint8_t IDY();
-	uint8_t ABY();	uint8_t REL();
-	uint8_t IMM();	uint8_t ZPG();
-	uint8_t IMP();	uint8_t ZPX();
-	uint8_t IND();	uint8_t ZPY();		
+	void ABS();	void IDX();
+	void ABX();	void IDY();
+	void ABY();	void REL();
+	void IMM();	void ZPG();
+	void IMP();	void ZPX();
+	void IND();	void ZPY();
 
 	// Instructions
-	uint8_t Instr_ADC(); uint8_t Instr_CLI(); uint8_t Instr_LDX(); uint8_t Instr_SED();
-	uint8_t Instr_AND(); uint8_t Instr_CLV(); uint8_t Instr_LDY(); uint8_t Instr_SEI();
-	uint8_t Instr_ASL(); uint8_t Instr_CMP(); uint8_t Instr_LSR(); uint8_t Instr_STA();
-	uint8_t Instr_BCC(); uint8_t Instr_CPX(); uint8_t Instr_NOP(); uint8_t Instr_STX();
-	uint8_t Instr_BCS(); uint8_t Instr_CPY(); uint8_t Instr_ORA(); uint8_t Instr_STY();
-	uint8_t Instr_BEQ(); uint8_t Instr_DEC(); uint8_t Instr_PHA(); uint8_t Instr_TAX();
-	uint8_t Instr_BIT(); uint8_t Instr_DEX(); uint8_t Instr_PHP(); uint8_t Instr_TAY();
-	uint8_t Instr_BMI(); uint8_t Instr_DEY(); uint8_t Instr_PLA(); uint8_t Instr_TSX();
-	uint8_t Instr_BNE(); uint8_t Instr_EOR(); uint8_t Instr_PLP(); uint8_t Instr_TXA();
-	uint8_t Instr_BPL(); uint8_t Instr_INC(); uint8_t Instr_ROL(); uint8_t Instr_TXS();
-	uint8_t Instr_BRK(); uint8_t Instr_INX(); uint8_t Instr_ROR(); uint8_t Instr_TYA();
-	uint8_t Instr_BVC(); uint8_t Instr_INY(); uint8_t Instr_RTI(); uint8_t Instr_CLD();
-	uint8_t Instr_BVS(); uint8_t Instr_JMP(); uint8_t Instr_RTS(); uint8_t Instr_LDA();
-	uint8_t Instr_CLC(); uint8_t Instr_JSR(); uint8_t Instr_SBC(); uint8_t Instr_SEC();
-	uint8_t Instr_XXX();
+	void Instr_ADC(); void Instr_CLI(); void Instr_LDX(); void Instr_SED();
+	void Instr_AND(); void Instr_CLV(); void Instr_LDY(); void Instr_SEI();
+	void Instr_ASL(); void Instr_CMP(); void Instr_LSR(); void Instr_STA();
+	void Instr_BCC(); void Instr_CPX(); void Instr_NOP(); void Instr_STX();
+	void Instr_BCS(); void Instr_CPY(); void Instr_ORA(); void Instr_STY();
+	void Instr_BEQ(); void Instr_DEC(); void Instr_PHA(); void Instr_TAX();
+	void Instr_BIT(); void Instr_DEX(); void Instr_PHP(); void Instr_TAY();
+	void Instr_BMI(); void Instr_DEY(); void Instr_PLA(); void Instr_TSX();
+	void Instr_BNE(); void Instr_EOR(); void Instr_PLP(); void Instr_TXA();
+	void Instr_BPL(); void Instr_INC(); void Instr_ROL(); void Instr_TXS();
+	void Instr_BRK(); void Instr_INX(); void Instr_ROR(); void Instr_TYA();
+	void Instr_BVC(); void Instr_INY(); void Instr_RTI(); void Instr_CLD();
+	void Instr_BVS(); void Instr_JMP(); void Instr_RTS(); void Instr_LDA();
+	void Instr_CLC(); void Instr_JSR(); void Instr_SBC(); void Instr_SEC();
+	void Instr_XXX();
 
     // Instruction cycle count
     static const uint8_t instr_cycles[256];
