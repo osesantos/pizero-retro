@@ -159,7 +159,7 @@ void Bus::connectScreen(TFT_eSPI* screen)
 
 IRAM_ATTR void Bus::renderImage(uint16_t scanline)
 {
-    #ifndef TFT_PARALLEL
+    #ifndef DISABLE_DMA
         ptr_screen->pushPixelsDMA(ppu.ptr_display, 256 * SCANLINES_PER_BUFFER);
     #else
         ptr_screen->pushPixels(ppu.ptr_display, 256 * SCANLINES_PER_BUFFER);

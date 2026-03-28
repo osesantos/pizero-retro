@@ -55,7 +55,7 @@ void setup()
     // Initialize TFT screen
     screen.begin();
     screen.setRotation(hw_config.rotation);
-    #ifndef TFT_PARALLEL
+    #ifndef DISABLE_DMA
         screen.initDMA();
     #endif
     screen.fillScreen(BG_COLOR);
