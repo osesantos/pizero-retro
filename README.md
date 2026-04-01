@@ -139,7 +139,7 @@ These are the recommended parts to use for this project.<br>
 | MOSI     | GPIO23         |
 | MISO     | -1 (N/A)       |
 | SCLK     | GPIO18         |
-| CS       | GPIO4          |
+| CS       | GPIO5          |
 | DC       | GPIO2          |
 | RST      | EN             |
 
@@ -172,7 +172,7 @@ There are currently three input methods: Tactile push buttons, an NES/SNES contr
 | Left     | GPIO32 & GND         |
 | Right    | GPIO33 & GND         |
 | Up       | GPIO15 & GND         |
-| Down     | GPIO5 & GND          |
+| Down     | GPIO4 & GND          |
 | Start    | GPIO27 & GND         |
 | Select   | GPIO16 (RX2) & GND   |
 <br>
@@ -183,8 +183,8 @@ There are currently three input methods: Tactile push buttons, an NES/SNES contr
 
 | Signal   | ESP32 Pins     |
 |----------|----------------|
-| Clock    | GPIO22         |
-| Latch    | GPIO27         |
+| Clock    | GPIO32         |
+| Latch    | GPIO33         |
 | Data     | GPIO35         |
 <br>
 
@@ -194,10 +194,10 @@ There are currently three input methods: Tactile push buttons, an NES/SNES contr
 
 | Signal    | ESP32 Pins     |
 |-----------|----------------|
-| Data      | GPIO17 (TX2)   |
-| Command   | GPIO22         |
-| Attention | GPIO19         |
-| Clock     | GPIO23         |
+| Data      | GPIO32         |
+| Command   | GPIO33         |
+| Attention | GPIO26         |
+| Clock     | GPIO27         |
 <br>
 
 
