@@ -145,17 +145,25 @@
     function updateManifest() {
       const device      = document.getElementById("device").value;
       const display     = document.getElementById("display").value;
-      const swap        = document.getElementById("swap").value;
+      let swap        = document.getElementById("swap").value;
       const screen_freq = document.getElementById("screen_freq").value;
       const frameskip   = "off"; // temporarily hardcoded — UI option commented out
       const debug       = document.getElementById("debug").value;
 
       // Runtime config values — baked into config.bin at the same path
-      const controller  = document.getElementById("controller").value;
+      let controller  = document.getElementById("controller").value;
       const rotation    = document.getElementById("rotation").value;
       const sd_freq     = document.getElementById("sd_freq").value;
-      const dacpin      = document.getElementById("dacpin").value;
-      const backlight   = document.getElementById("backlight").value;
+      let dacpin      = document.getElementById("dacpin").value;
+      let backlight   = document.getElementById("backlight").value;
+
+      // Override values for CYD
+      if (device === "cyd") {
+        controller = "nes";
+        backlight = "backlight_on";
+        swap = "swap_bytes";
+        dacpin = "dac_gpio26";
+      }
 
       // Manifest path — compile-time axes only determine which binary is used
       const manifestPath = "manifests/" +
