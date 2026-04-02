@@ -146,7 +146,9 @@ jobs:
           echo "Extra defines: $DEFINES"
           echo ""
           echo "========== PREPROCESSOR OUTPUT =========="
-          ~/.arduino15/packages/esp32/tools/xtensa-esp32-elf-gcc/*/bin/xtensa-esp32-elf-gcc \
+          GCC=$(find ~/.arduino15/packages/esp32/tools/xtensa-esp32-elf-gcc -name "xtensa-esp32-elf-gcc" -type f | head -1)
+          echo "Using GCC: $GCC"
+          $GCC \
             -E -dM \
             -I. \
             -I~/Arduino/libraries/TFT_eSPI \
