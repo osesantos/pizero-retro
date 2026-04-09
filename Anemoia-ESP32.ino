@@ -188,7 +188,7 @@ bool initSD()
         int x3 = (320 - w3) / 2;
         int x4 = (320 - w4) / 2;
 
-        screen.setTextColor(TFT_BLACK);
+        screen.setTextColor(TFT_WHITE);
         screen.drawString(txt1, x1, 56, 2);
         screen.drawString(txt2, x2, 88, 2);
         screen.drawString(txt3, x3, 120, 2);
