@@ -182,7 +182,7 @@ void Bus::saveState()
     uint32_t CRC32 = cart->CRC32;
 
     char CRC32_str[9];
-    sprintf(CRC32_str, "%08X", CRC32);
+    sprintf(CRC32_str, "%08lX", (unsigned long)CRC32);
 
     char filename[32];
     sprintf(filename, "/states/%s.state", CRC32_str);
@@ -208,7 +208,7 @@ void Bus::loadState()
     uint32_t CRC32 = cart->CRC32;
 
     char CRC32_str[9];
-    sprintf(CRC32_str, "%08X", CRC32);
+    sprintf(CRC32_str, "%08lX", (unsigned long)CRC32);
 
     char filename[32];
     sprintf(filename, "/states/%s.state", CRC32_str);
