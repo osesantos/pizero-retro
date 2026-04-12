@@ -109,7 +109,7 @@ IRAM_ATTR void emulate()
     xTaskCreatePinnedToCore(
     pollingTask,
     "Polling Task",
-    768,
+    1024,
     &nes,
     1,
     &polling_task_handle,
