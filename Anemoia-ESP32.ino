@@ -161,8 +161,8 @@ IRAM_ATTR void emulate()
         #endif
 
         // Frame limiting
-        uint64_t now = esp_timer_get_time();
         #ifndef DEBUG
+            uint64_t now = esp_timer_get_time();
             if (now < next_frame) ets_delay_us(next_frame - now);
         #endif
         next_frame += FRAME_TIME;
