@@ -327,7 +327,7 @@ https://espressif.github.io/arduino-esp32/package_esp32_index.json
 Copy and paste the TFT_eSPI configuration file into the TFT_eSPI folder.
 1. Navigate to your Arduino Libraries folder:
 (Default location): `Documents/Arduino/libraries/TFT_eSPI`
-2. Copy the provided `User_Setup.h` file from this repository into
+2. Copy your desired `User_Setup.h` file in the `/User_Setups` folder from this repository into
 `TFT_eSPI/` and overwrite the file. Optionally, edit the `#define` pins as desired.
 > [!NOTE]
 > If using a screen with the ILI9341 driver, open `User_Setup.h` in a text editor and comment out `#define ST7789_DRIVER` and uncomment `#define ILI9341_DRIVER`.
