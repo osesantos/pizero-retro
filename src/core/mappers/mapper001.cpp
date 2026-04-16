@@ -312,24 +312,9 @@ void mapper001_loadState(Mapper* mapper, File& state)
     }
 }
 
-const MapperVTable mapper001_vtable = 
-{
-    mapper001_cpuRead,
-    mapper001_cpuWrite,
-    mapper001_ppuRead,
-    mapper001_ppuWrite,
-    mapper001_ppuReadPtr,
-    mapperNoScanline,
-    mapperNoCycle,
-    mapper001_reset,
-    mapper001_dumpState,
-    mapper001_loadState,
-};
-
 Mapper createMapper001(uint8_t PRG_banks, uint8_t CHR_banks, Cartridge* cart)
 {
     Mapper mapper;
-    mapper.vtable = &mapper001_vtable; 
     Mapper001_state* state = new Mapper001_state;
     
     state->number_PRG_banks = PRG_banks;

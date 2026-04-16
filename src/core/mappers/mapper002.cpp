@@ -91,24 +91,9 @@ void mapper002_loadState(Mapper* mapper, File& state)
     }
 }
 
-const MapperVTable mapper002_vtable = 
-{
-    mapper002_cpuRead,
-    mapper002_cpuWrite,
-    mapper002_ppuRead,
-    mapper002_ppuWrite,
-    mapper002_ppuReadPtr,
-    mapperNoScanline,
-    mapperNoCycle,
-    mapper002_reset,
-    mapper002_dumpState,
-    mapper002_loadState,
-};
-
 Mapper createMapper002(uint8_t PRG_banks, uint8_t CHR_banks, Cartridge* cart)
 {
     Mapper mapper;
-    mapper.vtable = &mapper002_vtable; 
     Mapper002_state* state = new Mapper002_state;
     bankInit(&state->prg_cache, state->prg_banks, MAPPER002_NUM_PRG_BANKS_16K, 16*1024, cart);
 

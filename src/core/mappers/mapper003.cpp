@@ -68,24 +68,9 @@ void mapper003_loadState(Mapper* mapper, File& state)
     s->ptr_CHR_bank_8K = getBank(&s->CHR_cache_8K, CHR_bank, Mapper::ROM_TYPE::PRG_ROM);
 }
 
-const MapperVTable mapper003_vtable = 
-{
-    mapper003_cpuRead,
-    mapper003_cpuWrite,
-    mapper003_ppuRead,
-    mapper003_ppuWrite,
-    mapper003_ppuReadPtr,
-    mapperNoScanline,
-    mapperNoCycle,
-    mapper003_reset,
-    mapper003_dumpState,
-    mapper003_loadState,
-};
-
 Mapper createMapper003(uint8_t PRG_banks, uint8_t CHR_banks, Cartridge* cart)
 {
     Mapper mapper;
-    mapper.vtable = &mapper003_vtable; 
     Mapper003_state* state = new Mapper003_state;
     bankInit(&state->CHR_cache_8K, state->CHR_banks_8K, MAPPER003_NUM_CHR_BANKS_8K, 8*1024, cart);
 

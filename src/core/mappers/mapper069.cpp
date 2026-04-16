@@ -234,24 +234,9 @@ void mapper069_loadState(Mapper* mapper, File& state)
 	state.read(s->RAM, 8*1024);
 }	
 
-const MapperVTable mapper069_vtable = 
-{
-    mapper069_cpuRead,
-    mapper069_cpuWrite,
-    mapper069_ppuRead,
-    mapper069_ppuWrite,
-    mapper069_ppuReadPtr,
-    mapperNoScanline,    
-    mapper069_cycle,
-	mapper069_reset,
-	mapper069_dumpState,
-	mapper069_loadState,
-};
-
 Mapper createMapper069(uint8_t PRG_banks, uint8_t CHR_banks, Cartridge* cart)
 {
     Mapper mapper;
-    mapper.vtable = &mapper069_vtable; 
     Mapper069_state* state = new Mapper069_state;
     state->number_PRG_banks = PRG_banks;
     state->number_CHR_banks = CHR_banks;
