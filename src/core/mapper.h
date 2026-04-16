@@ -39,8 +39,8 @@ struct MapperVTable
     void (*dumpState)(Mapper* mapper, File& state);
     void (*loadState)(Mapper* mapper, File& state);
 };
-IRAM_ATTR static void mapperNoScanline(Mapper*) {}
-IRAM_ATTR static void mapperNoCycle(Mapper*, int) {}
+inline void mapperNoScanline(Mapper*) {}
+inline void mapperNoCycle(Mapper*, int) {}
 
 struct Bank
 {
