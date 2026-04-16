@@ -367,6 +367,7 @@ void UI::settingsMenu(Bus* nes)
     static char volume_text[15];
     static char palette_text[20];
     static char brightness_text[20];
+    static char save_return_text[] = "Save & Return";
     const char* palette_names[] =
     {
         "NTSC 565",
@@ -383,7 +384,7 @@ void UI::settingsMenu(Bus* nes)
         volume_text,
         brightness_text,
         palette_text,
-        "Save & Return"
+        save_return_text
     };
     enum ItemSelect
     {
