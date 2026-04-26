@@ -311,7 +311,7 @@ jobs:
                       mklittlefs -c tmp/fs_stage -s 0x0F000 "WebFlash/configs/$CFG_NAME"
                       rm -rf "tmp/fs_stage"
 
-                      printf '{\n  "name": "Anemoia-ESP32",\n  "version": "1.0.0",\n  "builds": [{\n    "chipFamily": "ESP32",\n    "parts": [\n      { "path": "../%s/bootloader.bin", "offset": 4096 },\n      { "path": "../%s/partitions.bin", "offset": 32768 },\n      { "path": "../%s/firmware.bin",   "offset": 65536 },\n      { "path": "../configs/%s",        "offset": 2686976 }\n    ]\n  }]\n}' \
+                      printf '{\n  "name": "Anemoia-ESP32",\n  "version": "1.0.0",\n  "funding_url": "https://ko-fi.com/manalotoshim",\n  "builds": [{\n    "chipFamily": "ESP32",\n    "parts": [\n      { "path": "../%s/bootloader.bin", "offset": 4096 },\n      { "path": "../%s/partitions.bin", "offset": 32768 },\n      { "path": "../%s/firmware.bin",   "offset": 65536 },\n      { "path": "../configs/%s",        "offset": 2686976 }\n    ]\n  }]\n}' \
                         "$FW_DEST" "$FW_DEST" "$FW_DEST" "$CFG_NAME" \
                         > "WebFlash/manifests/$DEVICE-$DISPLAY-$BACKLIGHT-$SWAP-$SCREEN_FREQ-$CONTROLLER-$ROTATION-$SD_FREQ-$DACPIN-$DEBUG.json"
                     done
