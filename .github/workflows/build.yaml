@@ -185,6 +185,12 @@ jobs:
             --fqbn "esp32:esp32:esp32" \
             --build-property "compiler.cpp.extra_flags=$PLATFORM_FLAGS -DOPTIMIZATION_FLAGS $DEFINES" \
             --build-property "compiler.c.extra_flags=$PLATFORM_FLAGS $DEFINES" \
+            --build-property "build.event_core=0" \
+            --build-property "build.loop_core=1" \
+            --build-property "build.flash_size=4MB" \
+            --build-property "build.flash_freq=80m" \
+            --build-property "build.flash_mode=qio" \
+            --build-property "upload.maximum_size=1310720" \
             --output-dir build/$VARIANT \
             .
 
@@ -311,7 +317,7 @@ jobs:
                       mklittlefs -c tmp/fs_stage -s 0x0F000 "WebFlash/configs/$CFG_NAME"
                       rm -rf "tmp/fs_stage"
 
-                      printf '{\n  "name": "Anemoia-ESP32",\n  "version": "1.0.0",\n  "funding_url": "https://ko-fi.com/manalotoshim",\n  "builds": [{\n    "chipFamily": "ESP32",\n    "parts": [\n      { "path": "../%s/bootloader.bin", "offset": 4096 },\n      { "path": "../%s/partitions.bin", "offset": 32768 },\n      { "path": "../%s/firmware.bin",   "offset": 65536 },\n      { "path": "../configs/%s",        "offset": 2686976 }\n    ]\n  }]\n}' \
+                      printf '{\n  "name": "Anemoia-ESP32",\n  "version": "1.0.0",\n  "funding_url": "https://ko-fi.com/manalotoshim",\n  "builds": [{\n    "chipFamily": "ESP32",\n    "parts": [\n      { "path": "../%s/bootloader.bin", "offset": 4096 },\n      { "path": "../%s/partitions.bin", "offset": 32768 },\n      { "path": "../%s/firmware.bin",   "offset": 65536 },\n      { "path": "../configs/%s",        "offset": 3866624 }\n    ]\n  }]\n}' \
                         "$FW_DEST" "$FW_DEST" "$FW_DEST" "$CFG_NAME" \
                         > "WebFlash/manifests/$DEVICE-$DISPLAY-$BACKLIGHT-$SWAP-$SCREEN_FREQ-$CONTROLLER-$ROTATION-$SD_FREQ-$DACPIN-$DEBUG.json"
                     done
