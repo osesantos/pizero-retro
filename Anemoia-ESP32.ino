@@ -26,14 +26,14 @@ TFT_eSPI screen = TFT_eSPI();
 SPIClass SD_SPI(SD_SPI_PORT);
 UI ui(&screen);
 Cartridge* cart;
-void setup() 
+void setup()
 {
     // Turn off Wifi and Bluetooth to reduce CPU overhead
     #ifdef DEBUG
         Serial.begin(115200);
         log_pin_config();
     #endif
-    
+
     WiFi.mode(WIFI_OFF);
     esp_wifi_stop();
     esp_wifi_deinit();
@@ -69,7 +69,7 @@ void setup()
     initController(hw_config.controller_type);
 }
 
-void loop() 
+void loop()
 {
     cart = ui.selectGame();
     if (cart && cart->isValid())
@@ -125,10 +125,10 @@ IRAM_ATTR void emulate()
     #define FRAME_TIME 16639
     uint64_t next_frame = esp_timer_get_time();
     // Emulation Loop
-    while (true) 
+    while (true)
     {
         // Start + Select opens the pause menu
-        if ((nes.controller & CONTROLLER::Start) && (nes.controller & CONTROLLER::Select)) 
+        if ((nes.controller & CONTROLLER::Start) && (nes.controller & CONTROLLER::Select))
         {
             if (!ui.paused)
             {
@@ -170,11 +170,11 @@ IRAM_ATTR void emulate()
     #undef FRAME_TIME
 }
 
-bool initSD() 
+bool initSD()
 {
     LOG("Initializing SD...");
     SD_SPI.begin(SD_SCLK_PIN, SD_MISO_PIN, SD_MOSI_PIN, SD_CS_PIN);
-    if (!SD.begin(SD_CS_PIN, SD_SPI, hw_config.sd_freq * 1000000)) 
+    if (!SD.begin(SD_CS_PIN, SD_SPI, hw_config.sd_freq * 1000000))
     {
         LOG("SD Card Mount Failed");
 
@@ -187,7 +187,7 @@ bool initSD()
         int w2 = screen.textWidth(txt2, 2);
         int w3 = screen.textWidth(txt3, 2);
         int w4 = screen.textWidth(txt4, 2);
-        
+
         int x1 = (320 - w1) / 2;
         int x2 = (320 - w2) / 2;
         int x3 = (320 - w3) / 2;
@@ -234,7 +234,7 @@ void setupI2SDAC()
 
     if (hw_config.dac_pin == 1) i2s_config.channel_format = I2S_CHANNEL_FMT_ONLY_LEFT;
     i2s_driver_install(I2S_NUM_0, &i2s_config, 0, NULL);
-    
+
     if (hw_config.dac_pin == 0)
         i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN);
     else if (hw_config.dac_pin == 1)
@@ -274,7 +274,7 @@ void setupI2SDAC()
 #endif
 }
 
-void apuTask(void* param) 
+void apuTask(void* param)
 {
     Apu2A03* apu = (Apu2A03*)param;
 
@@ -297,5 +297,5 @@ void pollingTask(void* param)
 
         vTaskDelayUntil(&lastWakeTime, frameTicks);
     }
-    
+
 }
