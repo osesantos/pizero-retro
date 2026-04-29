@@ -104,20 +104,23 @@ jobs:
             ~/Arduino/libraries
           key: ${{ runner.os }}-arduino-esp32-3.2.1
 
-      - name: Cache clang tools
-        if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz'
+      - name: Cache clang-format
+        if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
         id: cache-clang
         uses: actions/cache@v5
         with:
           path: |
-            /usr/lib/llvm-17
-            /usr/bin/clang-format-17
-            /usr/bin/clang-tidy-17
-          key: clang-17-ubuntu-latest
+            /usr/lib/llvm-18
+            /usr/bin/clang-format-18
+          key: clang-18-ubuntu-latest
 
-      - name: Install clang tools
-        if: steps.cache-clang.outputs.cache-hit != 'true' && matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz'
-        run: sudo apt-get install -y clang-format-17 clang-tidy-17
+      - name: Install clang-format
+        if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
+        run: sudo apt-get install -y clang-format-18
+
+      - name: Install cppcheck
+        if: steps.cache-clang.outputs.cache-hit != 'true' && matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
+        run: sudo apt-get install -y cppcheck
 
       - name: Build defines and platform flags
         run: |
@@ -189,42 +192,32 @@ jobs:
           fi
           echo "=========================================="
 
-      - name: Generate compile_commands.json
-        if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz'
-        run: |
-          arduino-cli compile \
-            --fqbn "esp32:esp32:esp32" \
-            --only-compilation-database \
-            --build-property "compiler.cpp.extra_flags=${{ env.PLATFORM_FLAGS }} ${{ env.DEFINES }}" \
-            --build-property "compiler.c.extra_flags=${{ env.PLATFORM_FLAGS }} ${{ env.DEFINES }}" \
-            --build-path ./build \
-            .
-
       - name: Run clang-format
         if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
         run: |
-          find . -name "*.cpp" -o -name "*.h" -o -name "*.c" -o -name "*.ino" | \
-          xargs clang-format-17 --dry-run --Werror
+          find . -path ./build -prune -o \( -name "*.cpp" -o -name "*.h" -o -name "*.c" -o -name "*.ino" \) -print | \
+          xargs clang-format-18 --dry-run --Werror
 
-      - name: Run clang-tidy
+      - name: Run cppcheck
         if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz'
         run: |
-          find . -name "*.cpp" -o -name "*.h" -o -name "*.c" | \
-          xargs clang-tidy-17 -p build/
+          find . -path ./build -prune -o \( -name "*.cpp" -o -name "*.h" -o -name "*.c" \) -print | \
+          xargs cppcheck \
+            --quiet \
+            --enable=warning,performance,portability \
+            --error-exitcode=1 \
+            --suppressions-list=.cppcheck-suppressions \
+            --inline-suppr \
+            --language=c++ \
+            --std=c++11
 
       - name: Compile firmware
         run: |
           VARIANT="${{ matrix.device }}-${{ matrix.display }}-${{ matrix.swap }}-${{ matrix.screen_freq }}-${{ matrix.debug }}"
           arduino-cli compile \
-            --fqbn "esp32:esp32:esp32" \
+            --fqbn "esp32:esp32:esp32:PartitionScheme=custom,EventsCore=0" \
             --build-property "compiler.cpp.extra_flags=${{ env.PLATFORM_FLAGS }} ${{ env.DEFINES }}" \
             --build-property "compiler.c.extra_flags=${{ env.PLATFORM_FLAGS }} ${{ env.DEFINES }}" \
-            --build-property "build.event_core=0" \
-            --build-property "build.loop_core=1" \
-            --build-property "build.flash_size=4MB" \
-            --build-property "build.flash_freq=80m" \
-            --build-property "build.flash_mode=qio" \
-            --build-property "upload.maximum_size=1310720" \
             --output-dir build/$VARIANT \
             .
 
