@@ -115,11 +115,11 @@ jobs:
           key: clang-18-ubuntu-latest
 
       - name: Install clang-format
-        if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
+        if: steps.cache-clang.outputs.cache-hit != 'true' && matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
         run: sudo apt-get install -y clang-format-18
 
       - name: Install cppcheck
-        if: steps.cache-clang.outputs.cache-hit != 'true' && matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz' && matrix.device == 'esp32' && matrix.debug == 'debug_on'
+        if: matrix.display == 'ST7789' && matrix.swap == 'swap_bytes' && matrix.screen_freq == 'screen_freq_80MHz'
         run: sudo apt-get install -y cppcheck
 
       - name: Build defines and platform flags
