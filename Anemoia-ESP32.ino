@@ -28,12 +28,13 @@ UI ui(&screen);
 Cartridge* cart;
 void setup()
 {
-// Turn off Wifi and Bluetooth to reduce CPU overhead
 #ifdef DEBUG
     Serial.begin(115200);
     log_pin_config();
+    LOGF("ESP reset reason: %d\n", esp_reset_reason());
 #endif
 
+    // Turn off Wifi and Bluetooth to reduce CPU overhead
     WiFi.mode(WIFI_OFF);
     esp_wifi_stop();
     esp_wifi_deinit();
