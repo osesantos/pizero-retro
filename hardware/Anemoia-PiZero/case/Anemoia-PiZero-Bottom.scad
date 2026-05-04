@@ -152,7 +152,10 @@ plug_sw_x0   = 168;    plug_sw_x1   = 175;
 //   1. CUT (difference): shave off the entire outer skin to a depth of
 //      facing_skin_depth, removing the speaker circle completely.
 //   2. ADD (union): put back a clean flat slab of the same thickness.
-facing_skin_depth = 2.5;   // depth to shave off the outer face (covers all hole geometry)
+// The outer wall face is at Y=0.4mm, inner solid wall at Y=2.0mm.
+// The speaker circle emboss protrudes inward from Y=2.0 up to Y≈3.6mm.
+// We shave to Y=3.6 (past all circle geometry) and replace with a solid slab.
+facing_skin_depth = 3.6;   // shave depth: past the speaker circle emboss (Y=0 → 3.6)
 facing_wall_x0    = -eps;
 facing_wall_x1    = case_x_max + eps;
 facing_wall_z0    = case_z_bot - eps;
