@@ -503,6 +503,57 @@
   <polyline points="230,478 559,478 559,768 838,768"
             fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
 
+  <!-- ── BUTTON GND WIRES  (second terminal of each button → common GND bus)
+       GND bus runs horizontally at y=800 inside the buttons block.
+       Each button drops a grey dashed wire from its bottom edge to the bus.
+       Bus then exits left to Pi GND Pin30 (cy=388, even cx=230).
+  ── -->
+
+  <!-- GND bus horizontal line at y=800 -->
+  <line x1="524" y1="800" x2="1230" y2="800"
+        stroke="#666" stroke-width="2" stroke-dasharray="8,4" opacity="0.85"/>
+  <!-- GND bus label -->
+  <text x="1235" y="804" fill="#666" font-size="10" font-weight="bold">GND bus</text>
+
+  <!-- UP button GND: bottom of rect y=564+44=608 → y=800 at x=660 -->
+  <line x1="660" y1="608" x2="660" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- LEFT button GND: bottom of rect y=614+44=658 → y=800 at x=566 -->
+  <line x1="566" y1="658" x2="566" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- DOWN button GND: bottom of rect y=664+44=708 → y=800 at x=660 -->
+  <!-- offset x slightly to avoid overlap with UP wire -->
+  <line x1="668" y1="708" x2="668" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- RIGHT button GND: bottom of rect y=614+44=658 → y=800 at x=754 -->
+  <line x1="754" y1="658" x2="754" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- B button GND: bottom of rect y=564+44=608 → y=800 at x=1052 -->
+  <line x1="1052" y1="608" x2="1052" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- A button GND: bottom of rect y=564+44=608 → y=800 at x=1146 -->
+  <line x1="1146" y1="608" x2="1146" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- SELECT button GND: bottom of rect y=748+40=788 → y=800 at x=770 -->
+  <line x1="770" y1="788" x2="770" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- START button GND: bottom of rect y=748+40=788 → y=800 at x=890 -->
+  <line x1="890" y1="788" x2="890" y2="800"
+        stroke="#666" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GND bus → exits block left edge at y=800, routes to Pi GND Pin30 (cy=388) -->
+  <polyline points="524,800 415,800 415,388 230,388"
+            fill="none" stroke="#666" stroke-width="2" stroke-dasharray="8,4" opacity="0.85"/>
+  <!-- junction dot on Pi Pin30 GND circle -->
+  <circle cx="230" cy="388" r="4" fill="#666"/>
+
   <!-- ── Footer title block ─────────────────────────────────────── -->
   <rect x="8" y="875" width="1384" height="37" rx="6"
         fill="#0d1e3a" stroke="#2a4a7a" stroke-width="1.5"/>
