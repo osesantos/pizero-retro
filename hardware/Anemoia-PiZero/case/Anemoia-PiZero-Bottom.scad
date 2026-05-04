@@ -145,15 +145,18 @@ plug_sw_z0   = -42;    plug_sw_z1   = -28;
 plug_sw_y0   =  1.5;   plug_sw_y1   =   9;
 plug_sw_x0   = 168;    plug_sw_x1   = 175;
 
-// ── Bottom face fill (remove any sound holes from original STL) ───────────────
-// The original ESP32 shell had speaker/sound holes on the bottom face (Z≈-57mm).
-// We fill the entire inner bottom area with a thin slab to ensure a flat surface.
-bottom_fill_z0 = case_z_bot - eps;
-bottom_fill_z1 = case_z_bot + 3.0;   // 3mm slab covers any existing holes
-bottom_fill_x0 = 3.0;
-bottom_fill_x1 = case_x_max - 3.0;
-bottom_fill_y0 = 1.5;
-bottom_fill_y1 = 13.0;
+// ── Facing wall (Y=0 outer face) — shave and replace ─────────────────────────
+// The original ESP32 STL has a speaker circle with small holes on the outer
+// facing wall (Y=0 face). We cannot fill over it because the geometry is on
+// the outer skin itself. Instead we:
+//   1. CUT (difference): shave off the entire outer skin to a depth of
+//      facing_skin_depth, removing the speaker circle completely.
+//   2. ADD (union): put back a clean flat slab of the same thickness.
+facing_skin_depth = 2.5;   // depth to shave off the outer face (covers all hole geometry)
+facing_wall_x0    = -eps;
+facing_wall_x1    = case_x_max + eps;
+facing_wall_z0    = case_z_bot - eps;
+facing_wall_z1    = case_z_top + eps;
 
 // =============================================================================
 // Main model
@@ -176,11 +179,11 @@ difference() {
                   plug_sw_y1 - plug_sw_y0,
                   plug_sw_z1 - plug_sw_z0]);
 
-        // ── Fill bottom face (remove sound holes, ensure flat bottom) ─────────
-        translate([bottom_fill_x0, bottom_fill_y0, bottom_fill_z0])
-            cube([bottom_fill_x1 - bottom_fill_x0,
-                  bottom_fill_y1 - bottom_fill_y0,
-                  bottom_fill_z1 - bottom_fill_z0]);
+        // ── Restore flat facing wall (added back after shaving, see difference below) ──
+        translate([facing_wall_x0, 0, facing_wall_z0])
+            cube([facing_wall_x1 - facing_wall_x0,
+                  facing_skin_depth,
+                  facing_wall_z1 - facing_wall_z0]);
 
         // ── Standoff posts — all 4 Pi Zero mounting corners ──────────────────
         // Posts are cylinders rising from the inner floor toward Y-max (open side).
@@ -215,6 +218,14 @@ difference() {
     // =========================================================================
     // Cutouts
     // =========================================================================
+
+    // ── Shave outer facing wall (Y=0 face) to remove speaker circle ─────────
+    // Removes the entire outer skin including all ESP32 speaker holes/embossing.
+    // The clean flat slab added in union() replaces it.
+    translate([facing_wall_x0, -eps, facing_wall_z0])
+        cube([facing_wall_x1 - facing_wall_x0,
+              facing_skin_depth + eps,
+              facing_wall_z1 - facing_wall_z0]);
 
     // ── mini-HDMI slot — top edge wall (Z≈0) ─────────────────────────────────
     // Slot cuts through the top wall from outside (Z=+eps) downward (Z direction).
