@@ -5,21 +5,34 @@
 // a Raspberry Pi Zero instead of an ESP32-DevKit.
 //
 // Changes from the original:
-//   REMOVED  — TP4056 USB charging port slot (left wall)
-//   REMOVED  — SS12F17 power switch slot (right wall)
-//   ADDED    — Micro-USB PWR port slot on bottom edge  (Pi Zero PWR port)
-//   ADDED    — Micro-USB OTG port slot on bottom edge  (Pi Zero OTG port)
-//   ADDED    — 2× M2.5 standoff holes for Pi Zero mounting
+//   REMOVED  — TP4056 USB charging port slot (left wall)   → filled
+//   REMOVED  — SS12F17 power switch slot (right wall)      → filled
+//   REMOVED  — Sound holes in bottom face                  → filled / never cut
+//   ADDED    — mini-HDMI slot on top edge (Z≈0 wall)
+//   ADDED    — Micro-USB PWR slot on top edge (Z≈0 wall)
+//   ADDED    — Micro-USB OTG slot on top edge (Z≈0 wall)
+//   ADDED    — Micro-SD card slot on right edge (X-max wall)
+//   ADDED    — 4× M2.5 standoff posts with pilot holes (one per Pi Zero corner)
 //
 // Coordinate system (inherited from original STL):
-//   X : 0 → 174.2 mm   case width  (landscape orientation)
-//   Y : 0 → 15.4 mm    case depth  (bottom half thickness)
-//   Z : -57.1 → 2.6 mm case height (Z=0 is the top parting seam)
+//   X :    0 → 174.2 mm   case width  (landscape orientation)
+//   Y :    0 →  15.4 mm   case depth  (bottom half thickness;
+//                                       Y=0 = outer front face,
+//                                       Y=15.4 = inner surface / open top)
+//   Z : -57.1 →   2.6 mm  case height (Z=0 ≈ parting seam = TOP edge of case
+//                                       when held normally with screen facing you;
+//                                       Z=-57 = bottom edge)
 //
-// Pi Zero placement:
-//   Pi Zero PCB spans X = 85 → 150 mm, with its port edge at Z ≈ -38 mm
-//   (Pi Zero 30mm wide, bottom edge of Pi = bottom of case side)
-//   Ports face the Z-min (bottom) edge of the case.
+// Pi Zero placement — top-right corner, processor facing up:
+//   Pi Zero PCB:  65mm wide × 30mm tall
+//   Pi left  edge : X = 104.2 mm  (= 174.2 - 5mm margin - 65mm)
+//   Pi right edge : X = 169.2 mm  (= 174.2 - 5mm margin)
+//   Pi top   edge : Z =  -5.0 mm  (= 0 - 5mm margin from top wall)
+//   Pi bottom edge: Z = -35.0 mm  (= -5 - 30mm)
+//
+//   Port edge (mini-HDMI + 2× micro-USB) faces the TOP wall  (Z≈0)
+//   SD card slot faces the RIGHT wall (X≈174mm)
+//   Processor (SoC) faces UP (toward open/inner side, Y-max direction)
 //
 // Dependencies:
 //   Requires the original STL at the relative path below.
@@ -27,71 +40,120 @@
 // =============================================================================
 
 // ── Path to the original bottom shell STL ────────────────────────────────────
-// Adjust if your working directory differs.
 original_stl = "../../../3d-model/Anemoia-ESP32/Anemoia-ESP32-Bottom.stl";
 
 // =============================================================================
-// Parameters — tweak these if your specific components differ
+// Parameters
 // =============================================================================
 
 // ── Tolerances ────────────────────────────────────────────────────────────────
-tol = 0.3;    // general print tolerance added to cutout dimensions (mm)
-eps = 0.1;    // small epsilon to avoid z-fighting in previews
+tol = 0.3;   // general print tolerance added to cutout dimensions (mm)
+eps = 0.1;   // small epsilon to avoid z-fighting in previews
 
-// ── Micro-USB port slot dimensions ───────────────────────────────────────────
-// Standard Micro-USB plug opening: 8.0mm wide × 3.5mm tall
-// We add tolerance and round the corners with a small fillet (approximated)
-usb_slot_w  = 8.0 + tol * 2;   // 8.6mm wide
-usb_slot_h  = 3.5 + tol * 2;   // 4.1mm tall
-usb_slot_d  = 4.0;              // depth of slot into case wall (wall is ~2mm, 4mm ensures clean cut)
+// ── Case bounds (from original STL) ──────────────────────────────────────────
+case_x_max = 174.2;
+case_z_top =   2.6;   // Z of outer top-edge wall face
+case_z_bot = -57.1;   // Z of outer bottom-edge wall face
 
-// ── Pi Zero port X positions (measured from left end of Pi Zero PCB) ─────────
-// Pi Zero PCB left edge sits at X = 85mm in the case
-pi_x_offset = 85;               // X position of Pi Zero left edge in case coords
+// ── Pi Zero PCB dimensions & placement ───────────────────────────────────────
+pi_pcb_w      = 65.0;    // Pi Zero PCB width  (along X)
+pi_pcb_h      = 30.0;    // Pi Zero PCB height (along Z)
+pi_margin_top = 5.0;     // gap between Pi port edge and top wall (inner)
+pi_margin_right = 5.0;   // gap between Pi right edge and right wall (inner)
 
-// Pi Zero port offsets from its own left edge (from datasheet):
-pi_usb_pwr_offset = 20.5;       // USB PWR port centre from Pi Zero left edge
-pi_usb_otg_offset = 37.5;       // USB OTG port centre from Pi Zero left edge
+pi_x0 = case_x_max - pi_margin_right - pi_pcb_w;  // = 104.2 mm (Pi left  edge)
+pi_x1 = case_x_max - pi_margin_right;              // = 169.2 mm (Pi right edge)
+pi_z1 = -pi_margin_top;                            // =  -5.0 mm (Pi top   edge, port side)
+pi_z0 = pi_z1 - pi_pcb_h;                         // = -35.0 mm (Pi bottom edge)
 
-// Port centres in case X coordinates:
-usb_pwr_cx = pi_x_offset + pi_usb_pwr_offset;   // = 105.5mm
-usb_otg_cx = pi_x_offset + pi_usb_otg_offset;   // = 122.5mm
+// ── Pi Zero mounting hole positions (M2.5, 3.5mm from each corner) ────────────
+// Pi Zero holes are at (3.5, 3.5) from each corner of the PCB.
+// In case coords (Pi left=pi_x0, Pi top=pi_z1):
+//   top-left:     X = pi_x0 + 3.5,  Z = pi_z1 - 3.5
+//   top-right:    X = pi_x1 - 3.5,  Z = pi_z1 - 3.5
+//   bottom-left:  X = pi_x0 + 3.5,  Z = pi_z0 + 3.5
+//   bottom-right: X = pi_x1 - 3.5,  Z = pi_z0 + 3.5
+standoff_hole_inset = 3.5;   // Pi Zero mounting hole inset from PCB corner (mm)
 
-// ── Bottom edge Z position ────────────────────────────────────────────────────
-// The bottom face of the case is at Z ≈ -57mm.
-// The USB ports on the Pi Zero bottom edge protrude into this wall.
-// Pi Zero PCB sits at Z ≈ -8mm (top of Pi PCB) to Z ≈ -38mm (bottom of Pi PCB).
-// The port connector body sits centred on the bottom edge of the Pi PCB.
-// Port body centre Z ≈ -38 - 2 = -40mm (accounting for connector below PCB)
-usb_port_cz = -40;              // Z centre of USB port slots
+so_tl_x = pi_x0 + standoff_hole_inset;   // top-left     standoff X
+so_tr_x = pi_x1 - standoff_hole_inset;   // top-right    standoff X
+so_tl_z = pi_z1 - standoff_hole_inset;   // top standoffs Z
+so_bl_z = pi_z0 + standoff_hole_inset;   // bottom standoffs Z
 
-// ── Pi Zero standoff holes (M2.5, 2.7mm drill) ───────────────────────────────
-// Pi Zero mounting holes: 3.5mm diameter, 3.5mm from each corner edge
-// Pi Zero PCB: 65mm × 30mm
-// Mounting holes at: (3.5, 3.5) and (61.5, 3.5) from Pi Zero bottom-left corner
-// In case coords (Pi Zero left=85, bottom=Z-38+15=Z-23 from Pi top):
-// We place 2 holes on the floor of the bottom shell
-standoff_d        = 2.7;        // M2.5 drill diameter (mm)
-standoff_depth    = 6.0;        // how deep to drill into floor standoffs (mm)
-pi_standoff_1_x   = pi_x_offset + 3.5;    // = 88.5mm
-pi_standoff_2_x   = pi_x_offset + 61.5;   // = 146.5mm
-// Z position of mounting holes (Pi Zero top edge in case coords ≈ -8mm from seam)
-// Pi is 30mm wide → bottom edge at -8-30 = -38mm
-// Hole Y=3.5mm from top edge of Pi → in case Z = -8 - 3.5 = -11.5mm
-pi_standoff_z     = -11.5;
-// Holes are on the inner floor (Y face), at Y = inner floor ≈ 5mm (standoff tops)
-pi_standoff_y     = 0;          // from bottom of case, through standoff top
+// ── Standoff post geometry ────────────────────────────────────────────────────
+standoff_post_h  = 3.0;   // post height above inner floor (mm) — lifts PCB off floor
+standoff_post_od = 5.5;   // outer diameter of post (mm) — ~1.4mm wall around M2.5 hole
+standoff_pilot_d = 2.7;   // M2.5 pilot hole diameter (mm)
 
-// ── Plug block dimensions (filling old cutouts) ───────────────────────────────
-// Old TP4056 USB slot: left wall (X≈0), Z = -24 to -32mm, Y = 0 to 15mm
+// Posts sit on the inner floor. Inner floor Y position ≈ 1.5mm (floor thickness).
+// Pilot holes cut downward into the post top, depth = post height + floor = through post.
+standoff_floor_y = 1.5;   // Y coordinate of inner floor surface (approximate)
+
+// ── TOP-edge port slots (Z≈0 wall, cut along Z-axis) ─────────────────────────
+// Port positions are measured from the Pi Zero LEFT edge (pi_x0) along X.
+// Pi Zero datasheet port centres from left edge of PCB:
+//   mini-HDMI centre:    ~12.4 mm
+//   micro-USB PWR centre: ~37.0 mm  (labelled "PWR IN")
+//   micro-USB OTG centre: ~54.0 mm  (labelled "USB")
+//
+// Port slot dimensions (physical connector + tol):
+//   mini-HDMI:   11.4mm wide × 4.0mm tall
+//   micro-USB:    8.0mm wide × 3.5mm tall
+
+hdmi_cx = pi_x0 + 12.4;   // mini-HDMI centre X in case coords
+usb_pwr_cx = pi_x0 + 37.0; // USB PWR centre X
+usb_otg_cx = pi_x0 + 54.0; // USB OTG centre X
+
+hdmi_slot_w  = 11.4 + tol * 2;
+hdmi_slot_h  =  4.0 + tol * 2;
+usb_slot_w   =  8.0 + tol * 2;
+usb_slot_h   =  3.5 + tol * 2;
+top_slot_d   =  4.0;   // cut depth into/through the top wall (wall ≈ 2mm, 4mm clears it)
+
+// Y centre of port slots: mid-depth of the bottom shell
+top_slot_y_centre = 7.7;   // ≈ 15.4 / 2
+
+// Z position: slots cut downward from the top wall face.
+// The top wall outer face is at Z ≈ +2.6mm; we cut from above (Z=+eps) downward.
+// Port connector body sits just inside the wall, so Z centre is at:
+//   Pi top edge (Z=-5) + half of connector height protrusion above PCB ≈ Z ≈ -3mm
+// We cut a generous slot from Z=+eps down through the wall to Z = -(top_slot_d).
+// Slot Z range: Z = case_z_top + eps  →  Z = case_z_top - top_slot_d  (downward)
+
+// ── RIGHT-edge SD card slot (X≈174mm wall, cut along X-axis) ─────────────────
+// Pi Zero micro-SD card slot is on the underside of the PCB, opening at the
+// long edge opposite the port edge. With the Pi oriented as above:
+//   SD card faces the RIGHT wall (X-max).
+// SD card slot centre Z from Pi top edge: ~20mm down from Pi top edge
+//   → Z = pi_z1 - 20 = -5 - 20 = -25mm
+// SD card slot dimensions:
+//   12.0mm wide (along Z) × 1.5mm tall (along Y)
+sd_slot_w     = 12.0 + tol * 2;   // slot width along Z
+sd_slot_h     =  1.5 + tol * 2;   // slot height along Y (card thickness)
+sd_slot_d     =  4.0;              // cut depth into right wall
+sd_slot_z_ctr = pi_z1 - 20.0;     // Z centre of SD slot = -25mm
+sd_slot_y_ctr = top_slot_y_centre; // same Y centre as other slots
+
+// ── Plug block dimensions (filling old cutouts from original STL) ─────────────
+// Old TP4056 USB slot: left wall (X≈0), Z = -24 to -32mm
 plug_usb_z0  = -33;    plug_usb_z1  = -23;
 plug_usb_y0  =  0;     plug_usb_y1  =  15.5;
-plug_usb_x0  = -4;     plug_usb_x1  =  2;      // covers the wall interior
+plug_usb_x0  = -4;     plug_usb_x1  =   2;
 
-// Old power switch slot: right wall (X≈170), Z = -30 to -40mm, Y = 2 to 8mm
+// Old power switch slot: right wall (X≈170), Z = -30 to -40mm
 plug_sw_z0   = -42;    plug_sw_z1   = -28;
-plug_sw_y0   =  1.5;   plug_sw_y1   =  9;
+plug_sw_y0   =  1.5;   plug_sw_y1   =   9;
 plug_sw_x0   = 168;    plug_sw_x1   = 175;
+
+// ── Bottom face fill (remove any sound holes from original STL) ───────────────
+// The original ESP32 shell had speaker/sound holes on the bottom face (Z≈-57mm).
+// We fill the entire inner bottom area with a thin slab to ensure a flat surface.
+bottom_fill_z0 = case_z_bot - eps;
+bottom_fill_z1 = case_z_bot + 3.0;   // 3mm slab covers any existing holes
+bottom_fill_x0 = 3.0;
+bottom_fill_x1 = case_x_max - 3.0;
+bottom_fill_y0 = 1.5;
+bottom_fill_y1 = 13.0;
 
 // =============================================================================
 // Main model
@@ -113,46 +175,148 @@ difference() {
             cube([plug_sw_x1 - plug_sw_x0,
                   plug_sw_y1 - plug_sw_y0,
                   plug_sw_z1 - plug_sw_z0]);
+
+        // ── Fill bottom face (remove sound holes, ensure flat bottom) ─────────
+        translate([bottom_fill_x0, bottom_fill_y0, bottom_fill_z0])
+            cube([bottom_fill_x1 - bottom_fill_x0,
+                  bottom_fill_y1 - bottom_fill_y0,
+                  bottom_fill_z1 - bottom_fill_z0]);
+
+        // ── Standoff posts — all 4 Pi Zero mounting corners ──────────────────
+        // Posts are cylinders rising from the inner floor toward Y-max (open side).
+        // Orientation: cylinder axis along Y.
+        // translate to (X, floor_Y, Z) then extrude upward in Y.
+
+        // Top-left standoff
+        translate([so_tl_x, standoff_floor_y, so_tl_z])
+            rotate([90, 0, 0])
+                cylinder(h = standoff_post_h, d = standoff_post_od,
+                         center = false, $fn = 32);
+
+        // Top-right standoff
+        translate([so_tr_x, standoff_floor_y, so_tl_z])
+            rotate([90, 0, 0])
+                cylinder(h = standoff_post_h, d = standoff_post_od,
+                         center = false, $fn = 32);
+
+        // Bottom-left standoff
+        translate([so_tl_x, standoff_floor_y, so_bl_z])
+            rotate([90, 0, 0])
+                cylinder(h = standoff_post_h, d = standoff_post_od,
+                         center = false, $fn = 32);
+
+        // Bottom-right standoff
+        translate([so_tr_x, standoff_floor_y, so_bl_z])
+            rotate([90, 0, 0])
+                cylinder(h = standoff_post_h, d = standoff_post_od,
+                         center = false, $fn = 32);
     }
 
-    // ── Cut: USB PWR port slot on bottom edge ─────────────────────────────────
-    // Slot is centred at (usb_pwr_cx, Y=through-wall, usb_port_cz)
-    // Bottom edge of case is at Z = -57mm; slot cuts upward from there
+    // =========================================================================
+    // Cutouts
+    // =========================================================================
+
+    // ── mini-HDMI slot — top edge wall (Z≈0) ─────────────────────────────────
+    // Slot cuts through the top wall from outside (Z=+eps) downward (Z direction).
+    translate([hdmi_cx - hdmi_slot_w / 2,
+               top_slot_y_centre - hdmi_slot_h / 2,
+               case_z_top - top_slot_d])
+        cube([hdmi_slot_w,
+              hdmi_slot_h,
+              top_slot_d + eps]);
+
+    // ── micro-USB PWR slot — top edge wall ───────────────────────────────────
     translate([usb_pwr_cx - usb_slot_w / 2,
-               -eps,
-               usb_port_cz - usb_slot_h / 2])
-        cube([usb_slot_w, usb_slot_d + eps, usb_slot_h]);
+               top_slot_y_centre - usb_slot_h / 2,
+               case_z_top - top_slot_d])
+        cube([usb_slot_w,
+              usb_slot_h,
+              top_slot_d + eps]);
 
-    // ── Cut: USB OTG port slot on bottom edge ─────────────────────────────────
+    // ── micro-USB OTG slot — top edge wall ───────────────────────────────────
     translate([usb_otg_cx - usb_slot_w / 2,
-               -eps,
-               usb_port_cz - usb_slot_h / 2])
-        cube([usb_slot_w, usb_slot_d + eps, usb_slot_h]);
+               top_slot_y_centre - usb_slot_h / 2,
+               case_z_top - top_slot_d])
+        cube([usb_slot_w,
+              usb_slot_h,
+              top_slot_d + eps]);
 
-    // ── Cut: Pi Zero standoff hole 1 ─────────────────────────────────────────
-    // Cuts a pilot hole into the top of the existing floor standoffs so an
-    // M2.5 self-tapping screw can secure the proto board / Pi Zero assembly.
-    translate([pi_standoff_1_x,
-               pi_standoff_y - eps,
-               pi_standoff_z])
-        cylinder(h = standoff_depth + eps, d = standoff_d, $fn = 16);
+    // ── micro-SD card slot — right edge wall (X≈174mm) ───────────────────────
+    // Slot cuts through the right wall from outside (X = case_x_max + eps) inward.
+    translate([case_x_max - sd_slot_d,
+               sd_slot_y_ctr - sd_slot_h / 2,
+               sd_slot_z_ctr - sd_slot_w / 2])
+        cube([sd_slot_d + eps,
+              sd_slot_h,
+              sd_slot_w]);
 
-    // ── Cut: Pi Zero standoff hole 2 ─────────────────────────────────────────
-    translate([pi_standoff_2_x,
-               pi_standoff_y - eps,
-               pi_standoff_z])
-        cylinder(h = standoff_depth + eps, d = standoff_d, $fn = 16);
+    // ── Standoff pilot holes — M2.5 through each post ────────────────────────
+    // Holes drilled from the open top (Y-max direction) down through each post.
+    // translate to post centre (X, Y = open top + eps, Z) and drill downward.
+
+    // Top-left pilot hole
+    translate([so_tl_x,
+               standoff_floor_y + standoff_post_h + eps,
+               so_tl_z])
+        rotate([90, 0, 0])
+            cylinder(h = standoff_post_h + standoff_floor_y + eps * 2,
+                     d = standoff_pilot_d, $fn = 16);
+
+    // Top-right pilot hole
+    translate([so_tr_x,
+               standoff_floor_y + standoff_post_h + eps,
+               so_tl_z])
+        rotate([90, 0, 0])
+            cylinder(h = standoff_post_h + standoff_floor_y + eps * 2,
+                     d = standoff_pilot_d, $fn = 16);
+
+    // Bottom-left pilot hole
+    translate([so_tl_x,
+               standoff_floor_y + standoff_post_h + eps,
+               so_bl_z])
+        rotate([90, 0, 0])
+            cylinder(h = standoff_post_h + standoff_floor_y + eps * 2,
+                     d = standoff_pilot_d, $fn = 16);
+
+    // Bottom-right pilot hole
+    translate([so_tr_x,
+               standoff_floor_y + standoff_post_h + eps,
+               so_bl_z])
+        rotate([90, 0, 0])
+            cylinder(h = standoff_post_h + standoff_floor_y + eps * 2,
+                     d = standoff_pilot_d, $fn = 16);
 }
 
 // =============================================================================
-// Visual reference markers (rendered only in preview, not in export)
-// Uncomment the block below to see port positions in the OpenSCAD preview.
+// Visual reference markers (preview only — not included in export)
+// Uncomment to verify port and standoff positions in OpenSCAD preview.
 // =============================================================================
 // %color("red", 0.5) {
+//     // mini-HDMI slot outline
+//     translate([hdmi_cx - hdmi_slot_w/2, top_slot_y_centre - hdmi_slot_h/2,
+//                case_z_top - top_slot_d])
+//         cube([hdmi_slot_w, hdmi_slot_h, top_slot_d]);
 //     // USB PWR slot outline
-//     translate([usb_pwr_cx - usb_slot_w/2, -1, usb_port_cz - usb_slot_h/2])
-//         cube([usb_slot_w, 1, usb_slot_h]);
+//     translate([usb_pwr_cx - usb_slot_w/2, top_slot_y_centre - usb_slot_h/2,
+//                case_z_top - top_slot_d])
+//         cube([usb_slot_w, usb_slot_h, top_slot_d]);
 //     // USB OTG slot outline
-//     translate([usb_otg_cx - usb_slot_w/2, -1, usb_port_cz - usb_slot_h/2])
-//         cube([usb_slot_w, 1, usb_slot_h]);
+//     translate([usb_otg_cx - usb_slot_w/2, top_slot_y_centre - usb_slot_h/2,
+//                case_z_top - top_slot_d])
+//         cube([usb_slot_w, usb_slot_h, top_slot_d]);
+//     // SD card slot outline
+//     translate([case_x_max - sd_slot_d, sd_slot_y_ctr - sd_slot_h/2,
+//                sd_slot_z_ctr - sd_slot_w/2])
+//         cube([sd_slot_d, sd_slot_h, sd_slot_w]);
+// }
+// %color("blue", 0.5) {
+//     // Standoff post outlines
+//     translate([so_tl_x, standoff_floor_y, so_tl_z]) rotate([90,0,0])
+//         cylinder(h=standoff_post_h, d=standoff_post_od, $fn=32);
+//     translate([so_tr_x, standoff_floor_y, so_tl_z]) rotate([90,0,0])
+//         cylinder(h=standoff_post_h, d=standoff_post_od, $fn=32);
+//     translate([so_tl_x, standoff_floor_y, so_bl_z]) rotate([90,0,0])
+//         cylinder(h=standoff_post_h, d=standoff_post_od, $fn=32);
+//     translate([so_tr_x, standoff_floor_y, so_bl_z]) rotate([90,0,0])
+//         cylinder(h=standoff_post_h, d=standoff_post_od, $fn=32);
 // }
