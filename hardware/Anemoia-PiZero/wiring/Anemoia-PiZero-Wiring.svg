@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1400 920" width="1400" height="920"
+     font-family="'Courier New', Courier, monospace" font-size="12">
+
+  <!-- ─── Background ─────────────────────────────────────────── -->
+  <rect width="1400" height="920" fill="#12121f"/>
+
+  <!-- ─── Outer border ─────────────────────────────────────────── -->
+  <rect x="8" y="8" width="1384" height="904" rx="6"
+        fill="none" stroke="#2a4a7a" stroke-width="1.5"/>
+
+  <!-- ─── Title bar ─────────────────────────────────────────────── -->
+  <rect x="8" y="8" width="1384" height="44" rx="6" fill="#0d1e3a"
+        stroke="#2a4a7a" stroke-width="1.5"/>
+  <text x="700" y="36" fill="#60a0ff" font-size="20" font-weight="bold"
+        text-anchor="middle">Anemoia-PiZero — Wiring Diagram</text>
+  <text x="1380" y="26" fill="#556" font-size="10" text-anchor="end">Rev 1.0</text>
+  <text x="1380" y="40" fill="#556" font-size="10" text-anchor="end">Sheet 1 / 1</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       RASPBERRY PI ZERO  (left column, full height)
+       40-pin header shown as two columns of circles
+       Left col  = odd  pins  1,3,5…39   cx=190
+       Right col = even pins  2,4,6…40   cx=230
+       Row pitch = 18px, first row y=130
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="30" y="60" width="360" height="760" rx="10"
+        fill="#0c1c2e" stroke="#60a0ff" stroke-width="2"/>
+  <text x="210" y="88"  fill="#60a0ff" font-size="16" font-weight="bold" text-anchor="middle">Raspberry Pi Zero</text>
+  <text x="210" y="106" fill="#445"    font-size="10" text-anchor="middle">40-pin GPIO header (physical numbering)</text>
+
+  <!-- column headers -->
+  <text x="100" y="126" fill="#445" font-size="10" text-anchor="end">signal</text>
+  <text x="155" y="126" fill="#445" font-size="10" text-anchor="middle">odd</text>
+  <text x="230" y="126" fill="#445" font-size="10" text-anchor="middle">even</text>
+  <text x="300" y="126" fill="#445" font-size="10">signal</text>
+
+  <!-- ── Colour palette for used pins ──────────────
+       3V3   #ffd700   yellow
+       GND   #666666   grey
+       CS    #22c55e   green
+       MOSI  #f97316   orange
+       SCLK  #a855f7   purple
+       DC    #22d3ee   cyan
+       RST   #f43f5e   pink/red
+       BTN   #fb923c   light-orange
+  ──────────────────────────────────────────────── -->
+
+  <!-- helper macro: each row is 18px tall.  Row n → y = 130 + (n-1)*18 -->
+  <!-- We define y values explicitly for clarity -->
+
+  <!-- ── ROW 1   pin 1=3V3 / pin 2=5V ── -->
+  <circle cx="190" cy="136" r="6" fill="#ffd700"/>
+  <text x="178" y="140" fill="#ffd700" font-size="10" text-anchor="end" font-weight="bold">3V3</text>
+  <text x="145" y="140" fill="#ffd700" font-size="9"  text-anchor="end" font-weight="bold">1</text>
+  <circle cx="230" cy="136" r="6" fill="#c0392b"/>
+  <text x="242" y="140" fill="#888" font-size="10">5V</text>
+  <text x="290" y="140" fill="#556" font-size="9">2</text>
+
+  <!-- ── ROW 2   pin 3=GPIO2 / pin 4=5V ── -->
+  <circle cx="190" cy="154" r="5" fill="#334"/>
+  <text x="178" y="158" fill="#556" font-size="10" text-anchor="end">GPIO2</text>
+  <text x="145" y="158" fill="#556" font-size="9"  text-anchor="end">3</text>
+  <circle cx="230" cy="154" r="5" fill="#c0392b"/>
+  <text x="242" y="158" fill="#888" font-size="10">5V</text>
+  <text x="290" y="158" fill="#556" font-size="9">4</text>
+
+  <!-- ── ROW 3   pin 5=GPIO3 / pin 6=GND ── -->
+  <circle cx="190" cy="172" r="5" fill="#334"/>
+  <text x="178" y="176" fill="#556" font-size="10" text-anchor="end">GPIO3</text>
+  <text x="145" y="176" fill="#556" font-size="9"  text-anchor="end">5</text>
+  <circle cx="230" cy="172" r="5" fill="#444"/>
+  <text x="242" y="176" fill="#666" font-size="10">GND</text>
+  <text x="290" y="176" fill="#556" font-size="9">6</text>
+
+  <!-- ── ROW 4   pin 7=GPIO4 / pin 8=GPIO14 ── -->
+  <circle cx="190" cy="190" r="5" fill="#334"/>
+  <text x="178" y="194" fill="#556" font-size="10" text-anchor="end">GPIO4</text>
+  <text x="145" y="194" fill="#556" font-size="9"  text-anchor="end">7</text>
+  <circle cx="230" cy="190" r="5" fill="#334"/>
+  <text x="242" y="194" fill="#556" font-size="10">GPIO14 TX</text>
+  <text x="290" y="194" fill="#556" font-size="9">8</text>
+
+  <!-- ── ROW 5   pin 9=GND / pin 10=GPIO15 ── -->
+  <circle cx="190" cy="208" r="5" fill="#444"/>
+  <text x="178" y="212" fill="#666" font-size="10" text-anchor="end">GND</text>
+  <text x="145" y="212" fill="#556" font-size="9"  text-anchor="end">9</text>
+  <circle cx="230" cy="208" r="5" fill="#334"/>
+  <text x="242" y="212" fill="#556" font-size="10">GPIO15 RX</text>
+  <text x="290" y="212" fill="#556" font-size="9">10</text>
+
+  <!-- ── ROW 6   pin 11=GPIO17 / pin 12=GPIO18 ── -->
+  <circle cx="190" cy="226" r="5" fill="#334"/>
+  <text x="178" y="230" fill="#556" font-size="10" text-anchor="end">GPIO17</text>
+  <text x="145" y="230" fill="#556" font-size="9"  text-anchor="end">11</text>
+  <circle cx="230" cy="226" r="5" fill="#334"/>
+  <text x="242" y="230" fill="#556" font-size="10">GPIO18</text>
+  <text x="290" y="230" fill="#556" font-size="9">12</text>
+
+  <!-- ── ROW 7   pin 13=GPIO27 / pin 14=GND ── -->
+  <circle cx="190" cy="244" r="5" fill="#334"/>
+  <text x="178" y="248" fill="#556" font-size="10" text-anchor="end">GPIO27</text>
+  <text x="145" y="248" fill="#556" font-size="9"  text-anchor="end">13</text>
+  <circle cx="230" cy="244" r="5" fill="#444"/>
+  <text x="242" y="248" fill="#666" font-size="10">GND</text>
+  <text x="290" y="248" fill="#556" font-size="9">14</text>
+
+  <!-- ── ROW 8   pin 15=GPIO22 / pin 16=GPIO23 ── -->
+  <circle cx="190" cy="262" r="5" fill="#334"/>
+  <text x="178" y="266" fill="#556" font-size="10" text-anchor="end">GPIO22</text>
+  <text x="145" y="266" fill="#556" font-size="9"  text-anchor="end">15</text>
+  <circle cx="230" cy="262" r="5" fill="#334"/>
+  <text x="242" y="266" fill="#556" font-size="10">GPIO23</text>
+  <text x="290" y="266" fill="#556" font-size="9">16</text>
+
+  <!-- ── ROW 9   pin 17=3V3★ / pin 18=GPIO24★(DC) ── -->
+  <circle cx="190" cy="280" r="7" fill="#ffd700" stroke="#ffe87c" stroke-width="1.5"/>
+  <text x="178" y="284" fill="#ffd700" font-size="10" text-anchor="end" font-weight="bold">3V3</text>
+  <text x="145" y="284" fill="#ffd700" font-size="9"  text-anchor="end" font-weight="bold">17</text>
+  <circle cx="230" cy="280" r="7" fill="#22d3ee" stroke="#67e8f9" stroke-width="1.5"/>
+  <text x="242" y="284" fill="#22d3ee" font-size="10" font-weight="bold">GPIO24 DC</text>
+  <text x="290" y="284" fill="#22d3ee" font-size="9" font-weight="bold">18</text>
+
+  <!-- ── ROW 10  pin 19=GPIO10★(MOSI) / pin 20=GND ── -->
+  <circle cx="190" cy="298" r="7" fill="#f97316" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="178" y="302" fill="#f97316" font-size="10" text-anchor="end" font-weight="bold">GPIO10 MOSI</text>
+  <text x="145" y="302" fill="#f97316" font-size="9"  text-anchor="end" font-weight="bold">19</text>
+  <circle cx="230" cy="298" r="5" fill="#444"/>
+  <text x="242" y="302" fill="#666" font-size="10">GND</text>
+  <text x="290" y="302" fill="#556" font-size="9">20</text>
+
+  <!-- ── ROW 11  pin 21=GPIO9(MISO) / pin 22=GPIO25★(RST) ── -->
+  <circle cx="190" cy="316" r="5" fill="#334"/>
+  <text x="178" y="320" fill="#556" font-size="10" text-anchor="end">GPIO9 MISO</text>
+  <text x="145" y="320" fill="#556" font-size="9"  text-anchor="end">21</text>
+  <circle cx="230" cy="316" r="7" fill="#f43f5e" stroke="#fda4af" stroke-width="1.5"/>
+  <text x="242" y="320" fill="#f43f5e" font-size="10" font-weight="bold">GPIO25 RST</text>
+  <text x="290" y="320" fill="#f43f5e" font-size="9" font-weight="bold">22</text>
+
+  <!-- ── ROW 12  pin 23=GPIO11★(SCLK) / pin 24=GPIO8★(CS) ── -->
+  <circle cx="190" cy="334" r="7" fill="#a855f7" stroke="#d8b4fe" stroke-width="1.5"/>
+  <text x="178" y="338" fill="#a855f7" font-size="10" text-anchor="end" font-weight="bold">GPIO11 SCLK</text>
+  <text x="145" y="338" fill="#a855f7" font-size="9"  text-anchor="end" font-weight="bold">23</text>
+  <circle cx="230" cy="334" r="7" fill="#22c55e" stroke="#86efac" stroke-width="1.5"/>
+  <text x="242" y="338" fill="#22c55e" font-size="10" font-weight="bold">GPIO8 CS</text>
+  <text x="290" y="338" fill="#22c55e" font-size="9" font-weight="bold">24</text>
+
+  <!-- ── ROW 13  pin 25=GND / pin 26=GPIO7 ── -->
+  <circle cx="190" cy="352" r="5" fill="#444"/>
+  <text x="178" y="356" fill="#666" font-size="10" text-anchor="end">GND</text>
+  <text x="145" y="356" fill="#556" font-size="9"  text-anchor="end">25</text>
+  <circle cx="230" cy="352" r="5" fill="#334"/>
+  <text x="242" y="356" fill="#556" font-size="10">GPIO7</text>
+  <text x="290" y="356" fill="#556" font-size="9">26</text>
+
+  <!-- ── ROW 14  pin 27=ID_SD / pin 28=ID_SC ── -->
+  <circle cx="190" cy="370" r="5" fill="#2a2a2a"/>
+  <text x="178" y="374" fill="#444" font-size="10" text-anchor="end">ID_SD</text>
+  <text x="145" y="374" fill="#556" font-size="9"  text-anchor="end">27</text>
+  <circle cx="230" cy="370" r="5" fill="#2a2a2a"/>
+  <text x="242" y="374" fill="#444" font-size="10">ID_SC</text>
+  <text x="290" y="374" fill="#556" font-size="9">28</text>
+
+  <!-- ── ROW 15  pin 29=GPIO5★(BTN A) / pin 30=GND ── -->
+  <circle cx="190" cy="388" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="178" y="392" fill="#fb923c" font-size="10" text-anchor="end" font-weight="bold">GPIO5 BTN-A</text>
+  <text x="145" y="392" fill="#fb923c" font-size="9"  text-anchor="end" font-weight="bold">29</text>
+  <circle cx="230" cy="388" r="5" fill="#444"/>
+  <text x="242" y="392" fill="#666" font-size="10">GND</text>
+  <text x="290" y="392" fill="#556" font-size="9">30</text>
+
+  <!-- ── ROW 16  pin 31=GPIO6★(BTN B) / pin 32=GPIO12 ── -->
+  <circle cx="190" cy="406" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="178" y="410" fill="#fb923c" font-size="10" text-anchor="end" font-weight="bold">GPIO6 BTN-B</text>
+  <text x="145" y="410" fill="#fb923c" font-size="9"  text-anchor="end" font-weight="bold">31</text>
+  <circle cx="230" cy="406" r="5" fill="#334"/>
+  <text x="242" y="410" fill="#556" font-size="10">GPIO12</text>
+  <text x="290" y="410" fill="#556" font-size="9">32</text>
+
+  <!-- ── ROW 17  pin 33=GPIO13★(UP) / pin 34=GND ── -->
+  <circle cx="190" cy="424" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="178" y="428" fill="#fb923c" font-size="10" text-anchor="end" font-weight="bold">GPIO13 UP</text>
+  <text x="145" y="428" fill="#fb923c" font-size="9"  text-anchor="end" font-weight="bold">33</text>
+  <circle cx="230" cy="424" r="5" fill="#444"/>
+  <text x="242" y="428" fill="#666" font-size="10">GND</text>
+  <text x="290" y="428" fill="#556" font-size="9">34</text>
+
+  <!-- ── ROW 18  pin 35=GPIO19★(DOWN) / pin 36=GPIO16★(LEFT) ── -->
+  <circle cx="190" cy="442" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="178" y="446" fill="#fb923c" font-size="10" text-anchor="end" font-weight="bold">GPIO19 DOWN</text>
+  <text x="145" y="446" fill="#fb923c" font-size="9"  text-anchor="end" font-weight="bold">35</text>
+  <circle cx="230" cy="442" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="242" y="446" fill="#fb923c" font-size="10" font-weight="bold">GPIO16 LEFT</text>
+  <text x="290" y="446" fill="#fb923c" font-size="9" font-weight="bold">36</text>
+
+  <!-- ── ROW 19  pin 37=GPIO26★(SELECT) / pin 38=GPIO20★(RIGHT) ── -->
+  <circle cx="190" cy="460" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="178" y="464" fill="#fb923c" font-size="10" text-anchor="end" font-weight="bold">GPIO26 SELECT</text>
+  <text x="145" y="464" fill="#fb923c" font-size="9"  text-anchor="end" font-weight="bold">37</text>
+  <circle cx="230" cy="460" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="242" y="464" fill="#fb923c" font-size="10" font-weight="bold">GPIO20 RIGHT</text>
+  <text x="290" y="464" fill="#fb923c" font-size="9" font-weight="bold">38</text>
+
+  <!-- ── ROW 20  pin 39=GND / pin 40=GPIO21★(START) ── -->
+  <circle cx="190" cy="478" r="5" fill="#444"/>
+  <text x="178" y="482" fill="#666" font-size="10" text-anchor="end">GND</text>
+  <text x="145" y="482" fill="#556" font-size="9"  text-anchor="end">39</text>
+  <circle cx="230" cy="478" r="7" fill="#fb923c" stroke="#fdba74" stroke-width="1.5"/>
+  <text x="242" y="482" fill="#fb923c" font-size="10" font-weight="bold">GPIO21 START</text>
+  <text x="290" y="482" fill="#fb923c" font-size="9" font-weight="bold">40</text>
+
+  <!-- USB / Power note -->
+  <rect x="50" y="506" width="320" height="36" rx="5"
+        fill="#0a1a0a" stroke="#22c55e" stroke-width="1" stroke-dasharray="5,3"/>
+  <text x="210" y="521" fill="#22c55e" font-size="11" text-anchor="middle" font-weight="bold">Power: 5 V via Micro-USB port</text>
+  <text x="210" y="534" fill="#445"    font-size="10" text-anchor="middle">No battery — USB only build</text>
+
+  <!-- ── Legend ─────────────────────────────────────────────────── -->
+  <rect x="50" y="558" width="320" height="242" rx="5"
+        fill="#0c1a1a" stroke="#2a4a7a" stroke-width="1.5"/>
+  <text x="210" y="578" fill="#60a0ff" font-size="13" font-weight="bold" text-anchor="middle">Legend</text>
+
+  <rect x="68" y="588" width="14" height="14" rx="2" fill="#ffd700"/>
+  <text x="88"  y="600" fill="#ffd700" font-size="11">3.3 V power</text>
+
+  <rect x="68" y="608" width="14" height="14" rx="2" fill="#666"/>
+  <text x="88"  y="620" fill="#888"    font-size="11">GND</text>
+
+  <rect x="68" y="628" width="14" height="14" rx="2" fill="#22c55e"/>
+  <text x="88"  y="640" fill="#22c55e" font-size="11">SPI CS  (GPIO8, Pin 24)</text>
+
+  <rect x="68" y="648" width="14" height="14" rx="2" fill="#f97316"/>
+  <text x="88"  y="660" fill="#f97316" font-size="11">SPI MOSI (GPIO10, Pin 19)</text>
+
+  <rect x="68" y="668" width="14" height="14" rx="2" fill="#a855f7"/>
+  <text x="88"  y="680" fill="#a855f7" font-size="11">SPI SCLK (GPIO11, Pin 23)</text>
+
+  <rect x="68" y="688" width="14" height="14" rx="2" fill="#22d3ee"/>
+  <text x="88"  y="700" fill="#22d3ee" font-size="11">Display DC  (GPIO24, Pin 18)</text>
+
+  <rect x="68" y="708" width="14" height="14" rx="2" fill="#f43f5e"/>
+  <text x="88"  y="720" fill="#f43f5e" font-size="11">Display RST (GPIO25, Pin 22)</text>
+
+  <rect x="68" y="728" width="14" height="14" rx="2" fill="#fb923c"/>
+  <text x="88"  y="740" fill="#fb923c" font-size="11">GPIO buttons (×8)</text>
+
+  <line x1="68" y1="760" x2="108" y2="760" stroke="#aaa" stroke-width="2"/>
+  <text x="118" y="764" fill="#aaa" font-size="11">Solid line = SPI / power connection</text>
+  <line x1="68" y1="780" x2="108" y2="780" stroke="#aaa" stroke-width="2" stroke-dasharray="7,4"/>
+  <text x="118" y="784" fill="#aaa" font-size="11">Dashed line = button connection</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       ILI9341 DISPLAY BLOCK  (top-right)
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="520" y="60" width="860" height="390" rx="10"
+        fill="#0c1c2e" stroke="#22d3ee" stroke-width="2"/>
+  <text x="950" y="88"  fill="#22d3ee" font-size="16" font-weight="bold" text-anchor="middle">ILI9341 SPI TFT Display — 240 × 320</text>
+  <text x="950" y="106" fill="#445"    font-size="10" text-anchor="middle">3.3 V logic — directly compatible with Pi Zero GPIO</text>
+
+  <!-- Pin rows  (left section: pin name + source) -->
+  <!-- col positions: label x=540, box x1=700 w=200, source text x=892 -->
+
+  <!-- VCC -->
+  <rect x="540" y="118" width="360" height="26" rx="4" fill="#1a1200" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="556" y="136" fill="#ffd700" font-size="13" font-weight="bold">VCC</text>
+  <text x="892" y="136" fill="#ffd700" font-size="12" text-anchor="end">3.3 V  ← Pin 17</text>
+
+  <!-- GND -->
+  <rect x="540" y="150" width="360" height="26" rx="4" fill="#181818" stroke="#666" stroke-width="1.5"/>
+  <text x="556" y="168" fill="#888" font-size="13" font-weight="bold">GND</text>
+  <text x="892" y="168" fill="#888" font-size="12" text-anchor="end">GND  ← Pin 20 / 25 / any</text>
+
+  <!-- CS -->
+  <rect x="540" y="182" width="360" height="26" rx="4" fill="#071a07" stroke="#22c55e" stroke-width="1.5"/>
+  <text x="556" y="200" fill="#22c55e" font-size="13" font-weight="bold">CS</text>
+  <text x="892" y="200" fill="#22c55e" font-size="12" text-anchor="end">GPIO8  ← Pin 24</text>
+
+  <!-- RST -->
+  <rect x="540" y="214" width="360" height="26" rx="4" fill="#1a0008" stroke="#f43f5e" stroke-width="1.5"/>
+  <text x="556" y="232" fill="#f43f5e" font-size="13" font-weight="bold">RST</text>
+  <text x="892" y="232" fill="#f43f5e" font-size="12" text-anchor="end">GPIO25 ← Pin 22</text>
+
+  <!-- DC -->
+  <rect x="540" y="246" width="360" height="26" rx="4" fill="#001a1f" stroke="#22d3ee" stroke-width="1.5"/>
+  <text x="556" y="264" fill="#22d3ee" font-size="13" font-weight="bold">DC / RS</text>
+  <text x="892" y="264" fill="#22d3ee" font-size="12" text-anchor="end">GPIO24 ← Pin 18</text>
+
+  <!-- MOSI -->
+  <rect x="540" y="278" width="360" height="26" rx="4" fill="#1a0d00" stroke="#f97316" stroke-width="1.5"/>
+  <text x="556" y="296" fill="#f97316" font-size="13" font-weight="bold">MOSI / SDI</text>
+  <text x="892" y="296" fill="#f97316" font-size="12" text-anchor="end">GPIO10 ← Pin 19</text>
+
+  <!-- SCK -->
+  <rect x="540" y="310" width="360" height="26" rx="4" fill="#120020" stroke="#a855f7" stroke-width="1.5"/>
+  <text x="556" y="328" fill="#a855f7" font-size="13" font-weight="bold">SCK / CLK</text>
+  <text x="892" y="328" fill="#a855f7" font-size="12" text-anchor="end">GPIO11 ← Pin 23</text>
+
+  <!-- LED/BL -->
+  <rect x="540" y="342" width="360" height="26" rx="4" fill="#1a1200" stroke="#ffd700" stroke-width="1.5"/>
+  <text x="556" y="360" fill="#ffd700" font-size="13" font-weight="bold">LED / BL</text>
+  <text x="892" y="360" fill="#ffd700" font-size="12" text-anchor="end">3.3 V  ← Pin 17  (backlight always-on)</text>
+
+  <!-- MISO (NC) -->
+  <rect x="540" y="374" width="360" height="26" rx="4" fill="#111" stroke="#333" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="556" y="392" fill="#334" font-size="13">MISO</text>
+  <text x="892" y="392" fill="#334" font-size="12" text-anchor="end">— not connected —</text>
+
+  <!-- Display physical representation -->
+  <rect x="940"  y="112" width="200" height="270" rx="8"
+        fill="#08080f" stroke="#22d3ee" stroke-width="2"/>
+  <rect x="950"  y="122" width="180" height="250" rx="4" fill="#050510"/>
+  <!-- Decorative screen lines -->
+  <text x="1040" y="230" fill="#22d3ee" font-size="11" text-anchor="middle" opacity="0.4">240 × 320</text>
+  <text x="1040" y="248" fill="#22d3ee" font-size="11" text-anchor="middle" opacity="0.4">ILI9341</text>
+  <text x="1040" y="266" fill="#22d3ee" font-size="9"  text-anchor="middle" opacity="0.3">SPI TFT</text>
+  <!-- connector strip  -->
+  <rect x="980" y="388" width="120" height="10" rx="2" fill="#2a2a2a" stroke="#555"/>
+  <!-- connector pins suggestion -->
+  <line x1="985" y1="388" x2="985" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="995" y1="388" x2="995" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1005" y1="388" x2="1005" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1015" y1="388" x2="1015" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1025" y1="388" x2="1025" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1035" y1="388" x2="1035" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1045" y1="388" x2="1045" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1055" y1="388" x2="1055" y2="398" stroke="#888" stroke-width="1"/>
+  <line x1="1065" y1="388" x2="1065" y2="398" stroke="#888" stroke-width="1"/>
+  <text x="1040" y="414" fill="#445" font-size="9" text-anchor="middle">SPI header</text>
+  <text x="1160" y="450" fill="#22d3ee" font-size="10" text-anchor="middle" opacity="0.6">( Display module )</text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       BUTTONS BLOCK  (bottom-right)
+  ══════════════════════════════════════════════════════════════ -->
+  <rect x="520" y="470" width="860" height="410" rx="10"
+        fill="#0c1c2e" stroke="#fb923c" stroke-width="2"/>
+  <text x="950"  y="498" fill="#fb923c" font-size="16" font-weight="bold" text-anchor="middle">Tactile Push Buttons</text>
+  <text x="950"  y="516" fill="#445"    font-size="10" text-anchor="middle">Each button: one terminal → GPIO pin, other terminal → GND</text>
+  <text x="950"  y="530" fill="#445"    font-size="10" text-anchor="middle">Internal pull-up resistors enabled in software (mk_arcade_joystick_rpi)</text>
+
+  <!-- ── D-Pad cluster  (left group) ── -->
+  <text x="660" y="558" fill="#888" font-size="12" font-weight="bold" text-anchor="middle">D-Pad</text>
+
+  <!-- UP -->
+  <rect x="618" y="564" width="84" height="44" rx="6" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="660" y="582" fill="#fb923c" font-size="13" font-weight="bold" text-anchor="middle">▲ UP</text>
+  <text x="660" y="598" fill="#888"    font-size="9"  text-anchor="middle">GPIO13 · Pin 33</text>
+
+  <!-- LEFT -->
+  <rect x="524" y="614" width="84" height="44" rx="6" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="566" y="632" fill="#fb923c" font-size="13" font-weight="bold" text-anchor="middle">◀ LEFT</text>
+  <text x="566" y="648" fill="#888"    font-size="9"  text-anchor="middle">GPIO16 · Pin 36</text>
+
+  <!-- DOWN -->
+  <rect x="618" y="664" width="84" height="44" rx="6" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="660" y="682" fill="#fb923c" font-size="13" font-weight="bold" text-anchor="middle">▼ DOWN</text>
+  <text x="660" y="698" fill="#888"    font-size="9"  text-anchor="middle">GPIO19 · Pin 35</text>
+
+  <!-- RIGHT -->
+  <rect x="712" y="614" width="84" height="44" rx="6" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="754" y="632" fill="#fb923c" font-size="13" font-weight="bold" text-anchor="middle">RIGHT ▶</text>
+  <text x="754" y="648" fill="#888"    font-size="9"  text-anchor="middle">GPIO20 · Pin 38</text>
+
+  <!-- ── Action buttons  (right group) ── -->
+  <text x="1100" y="558" fill="#888" font-size="12" font-weight="bold" text-anchor="middle">Action</text>
+
+  <!-- B  (top-left of action cluster) -->
+  <rect x="1010" y="564" width="84" height="44" rx="22" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="1052" y="582" fill="#fb923c" font-size="13" font-weight="bold" text-anchor="middle">B</text>
+  <text x="1052" y="598" fill="#888"    font-size="9"  text-anchor="middle">GPIO6 · Pin 31</text>
+
+  <!-- A  (right of B) -->
+  <rect x="1104" y="564" width="84" height="44" rx="22" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="1146" y="582" fill="#fb923c" font-size="13" font-weight="bold" text-anchor="middle">A</text>
+  <text x="1146" y="598" fill="#888"    font-size="9"  text-anchor="middle">GPIO5 · Pin 29</text>
+
+  <!-- ── Menu buttons ── -->
+  <text x="820" y="740" fill="#888" font-size="12" font-weight="bold" text-anchor="middle">Menu</text>
+
+  <!-- SELECT -->
+  <rect x="718" y="748" width="104" height="40" rx="6" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="770" y="766" fill="#fb923c" font-size="12" font-weight="bold" text-anchor="middle">SELECT</text>
+  <text x="770" y="781" fill="#888"    font-size="9"  text-anchor="middle">GPIO26 · Pin 37</text>
+
+  <!-- START -->
+  <rect x="838" y="748" width="104" height="40" rx="6" fill="#0e1e30" stroke="#fb923c" stroke-width="2"/>
+  <text x="890" y="766" fill="#fb923c" font-size="12" font-weight="bold" text-anchor="middle">START</text>
+  <text x="890" y="781" fill="#888"    font-size="9"  text-anchor="middle">GPIO21 · Pin 40</text>
+
+  <!-- GND rail note -->
+  <rect x="524" y="806" width="836" height="26" rx="5"
+        fill="#1a1200" stroke="#666" stroke-width="1" stroke-dasharray="4,3"/>
+  <text x="942" y="823" fill="#666" font-size="10" text-anchor="middle">
+    All button GND terminals share common GND → any GND pin (e.g. Pin 6, 9, 14, 20, 25, 30, 34, 39)
+  </text>
+
+  <!-- Button wiring hint -->
+  <rect x="524" y="838" width="836" height="26" rx="5"
+        fill="#0e1e0e" stroke="#22c55e" stroke-width="1"/>
+  <text x="942" y="855" fill="#22c55e" font-size="10" text-anchor="middle">
+    Tip: run a single GND bus wire along all button GND terminals to minimise wiring
+  </text>
+
+  <!-- ══════════════════════════════════════════════════════════════
+       CONNECTION WIRES  (Pi right-side → Display / Buttons)
+       All wires leave from the right edge of the Pi block (x=390)
+       or left edge (x=60) for left-exit routes.
+       Routing uses horizontal then vertical then horizontal segments.
+
+       Pi pin cx positions:
+         odd  pins: cx=190  → exit right at x=390
+         even pins: cx=230  → exit right at x=390
+
+       Display block left edge: x=520
+       Buttons block left edge: x=520
+  ══════════════════════════════════════════════════════════════ -->
+
+  <!-- ── 3V3  Pin17 (cy=280)  →  Display VCC (y=131) and LED (y=355) ── -->
+  <!-- vertical bus at x=470 -->
+  <polyline points="190,280 470,280 470,131 540,131"
+            fill="none" stroke="#ffd700" stroke-width="2"/>
+  <!-- branch to LED pin (y=355) -->
+  <polyline points="470,280 470,355 540,355"
+            fill="none" stroke="#ffd700" stroke-width="2" stroke-dasharray="6,3" opacity="0.7"/>
+  <!-- junction dot -->
+  <circle cx="470" cy="280" r="4" fill="#ffd700"/>
+
+  <!-- ── GND  (any GND)  →  Display GND (y=163) ──
+       Use Pin20 (cy=298, right side) as the GND source -->
+  <polyline points="230,298 480,298 480,163 540,163"
+            fill="none" stroke="#666" stroke-width="2"/>
+
+  <!-- ── GPIO24 DC  Pin18 (cy=280, even/right)  →  Display DC (y=259) ── -->
+  <polyline points="230,280 490,280 490,259 540,259"
+            fill="none" stroke="#22d3ee" stroke-width="2"/>
+  <!-- Note: 3V3 uses x=470 bus, DC uses x=490 to avoid overlap -->
+
+  <!-- ── GPIO25 RST  Pin22 (cy=316, even/right)  →  Display RST (y=227) ── -->
+  <polyline points="230,316 500,316 500,227 540,227"
+            fill="none" stroke="#f43f5e" stroke-width="2"/>
+
+  <!-- ── GPIO8 CS  Pin24 (cy=334, even/right)  →  Display CS (y=195) ── -->
+  <polyline points="230,334 510,334 510,195 540,195"
+            fill="none" stroke="#22c55e" stroke-width="2"/>
+
+  <!-- ── GPIO10 MOSI  Pin19 (cy=298, odd/left)  →  Display MOSI (y=291) ──
+       Exit left, go down below Pi block, cross to right, rise to display -->
+  <polyline points="190,298 455,298 455,291 540,291"
+            fill="none" stroke="#f97316" stroke-width="2"/>
+
+  <!-- ── GPIO11 SCLK  Pin23 (cy=334, odd/left)  →  Display SCK (y=323) ── -->
+  <polyline points="190,334 445,334 445,323 540,323"
+            fill="none" stroke="#a855f7" stroke-width="2"/>
+
+  <!-- ── BUTTON WIRES  (dashed, lighter)
+       All leave Pi right side, drop to below-block routing corridor,
+       then enter buttons block.
+       Corridor y levels:  BTN wires use y = 840..870 range (below both blocks)
+       Actually we have space at bottom.  Instead route through gap between
+       display (bottom y=450) and buttons (top y=470).
+       Each wire gets its own x track to avoid overlap.
+  ── -->
+
+  <!-- routing tracks (x values) in the inter-block gap (y=450 to y=470):
+       GPIO5  BTN-A  Pin29  cy=388  → x=531  → enter buttons at y=527 ish
+       GPIO6  BTN-B  Pin31  cy=406  → x=535
+       GPIO13 UP     Pin33  cy=424  → x=539
+       GPIO19 DOWN   Pin35  cy=442  → x=543
+       GPIO16 LEFT   Pin36  cy=442  (even, cx=230) → x=547
+       GPIO26 SELECT Pin37  cy=460  → x=551
+       GPIO20 RIGHT  Pin38  cy=460  (even, cx=230) → x=555
+       GPIO21 START  Pin40  cy=478  (even, cx=230) → x=559
+  -->
+
+  <!-- GPIO5 BTN-A (odd, cx=190, cy=388)  → A button centre ~(1146,586) -->
+  <polyline points="190,388 531,388 531,458 1146,458 1146,564"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO6 BTN-B (odd, cx=190, cy=406)  → B button centre ~(1052,586) -->
+  <polyline points="190,406 535,406 535,462 1052,462 1052,564"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO13 UP (odd, cx=190, cy=424)  → UP button centre ~(660,586) -->
+  <polyline points="190,424 539,424 539,466 660,466 660,564"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO19 DOWN (odd, cx=190, cy=442)  → DOWN button centre ~(660,686) -->
+  <polyline points="190,442 543,442 543,686 702,686"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO16 LEFT (even, cx=230, cy=442)  → LEFT button centre ~(566,636) -->
+  <polyline points="230,442 547,442 547,636 524,636"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO26 SELECT (odd, cx=190, cy=460)  → SELECT button ~(770,768) -->
+  <polyline points="190,460 551,460 551,768 718,768"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO20 RIGHT (even, cx=230, cy=460)  → RIGHT button centre ~(754,636) -->
+  <polyline points="230,460 555,460 555,636 712,636"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- GPIO21 START (even, cx=230, cy=478)  → START button ~(890,768) -->
+  <polyline points="230,478 559,478 559,768 838,768"
+            fill="none" stroke="#fb923c" stroke-width="1.5" stroke-dasharray="8,4" opacity="0.85"/>
+
+  <!-- ── Footer title block ─────────────────────────────────────── -->
+  <rect x="8" y="875" width="1384" height="37" rx="6"
+        fill="#0d1e3a" stroke="#2a4a7a" stroke-width="1.5"/>
+  <text x="20"   y="890" fill="#445" font-size="10">Title: Anemoia-PiZero Wiring Diagram</text>
+  <text x="20"   y="904" fill="#445" font-size="10">Board: Raspberry Pi Zero  |  Display: ILI9341 240×320 SPI  |  Input: 8× GPIO Tactile Buttons  |  Power: USB 5 V</text>
+  <text x="1375" y="897" fill="#445" font-size="10" text-anchor="end">hardware/Anemoia-PiZero/wiring/Anemoia-PiZero-Wiring.svg</text>
+
+</svg>

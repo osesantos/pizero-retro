@@ -1,0 +1,44 @@
+# =============================================================================
+# Anemoia-PiZero - /boot/config.txt additions
+# =============================================================================
+# Copy the relevant sections below into the END of your /boot/config.txt on
+# the RetroPie SD card, then reboot.
+#
+# Your full /boot/config.txt is at the root of the FAT32 boot partition and
+# can be edited from any PC before first boot.
+# =============================================================================
+
+# -----------------------------------------------------------------------------
+# Enable SPI bus (required for the ILI9341 display)
+# -----------------------------------------------------------------------------
+dtparam=spi=on
+
+# -----------------------------------------------------------------------------
+# ILI9341 SPI display via fbtft kernel driver
+#
+# Pin assignments (matches the wiring table in README.md):
+#   reset_pin = GPIO25  (Pi Zero Pin 22)
+#   dc_pin    = GPIO24  (Pi Zero Pin 18)
+#   CS        = SPI0 CE0 = GPIO8 (Pi Zero Pin 24) - handled by SPI bus
+#
+# speed=32000000  : 32 MHz SPI clock (safe default; increase to 48000000 if display permits)
+# fps=60          : target refresh rate
+# bgr=1           : swap R/B channels (required for most ILI9341 modules)
+# rotate=90       : landscape orientation (0=portrait, 90=landscape, 270=landscape flipped)
+# -----------------------------------------------------------------------------
+dtoverlay=fbtft,spi0-0,ili9341,speed=32000000,fps=60,bgr=1,reset_pin=25,dc_pin=24,rotate=90
+
+# -----------------------------------------------------------------------------
+# Force HDMI output at 320x240 so fbcp can mirror it to the SPI display.
+# fbcp copies /dev/fb0 (HDMI) → /dev/fb1 (SPI display).
+# These settings are required even if no HDMI monitor is connected.
+# -----------------------------------------------------------------------------
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt=320 240 60 1 0 0 0
+
+# -----------------------------------------------------------------------------
+# Optional: disable overscan if you see black borders on an HDMI monitor
+# -----------------------------------------------------------------------------
+# disable_overscan=1
