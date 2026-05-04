@@ -55,15 +55,102 @@
 
 ### Parts List
 
-- Raspberry Pi Zero (any revision; Pi Zero 2 W recommended for better performance)
-- ILI9341-based SPI TFT display, 240×320
-- 8 tactile push buttons
-- MicroSD card (for OS + ROMs)
-- USB power supply (5V / 1A minimum via micro-USB)
-- Wires for hand-wiring (no PCB required)
+| Part | Specification | Notes |
+|---|---|---|
+| Raspberry Pi Zero | Any revision | Pi Zero 2 W gives better emulation performance |
+| SPI TFT display | ILI9341, 240×320, 2.8" | Bare module, not a touchscreen variant |
+| Tactile push buttons | 12×12mm body | **6mm or 6.5mm stem height** — see note below |
+| Proto board | 5×7 cm (50×70mm) | Elegoo or equivalent, 2.54mm pitch |
+| MicroSD card | 8GB minimum, Class 10 | For OS + ROMs |
+| USB power supply | 5V / 1A via Micro-USB | Standard phone charger works |
+| Hookup wire | 28 AWG stranded | ~30cm total; solid core also works inside case |
+| M2.5 × 6mm screws | Self-tapping | ×2, to mount proto board to case standoffs |
+| Solder, flux | — | Standard 60/40 or lead-free |
+
+> [!WARNING]
+> **Button stem height is critical.** The top shell inner cavity is approximately 7mm deep.
+> Standard 12×12×7.3mm tactile buttons (the most common size) will be 0.3mm too tall and will
+> prevent the case from closing cleanly. Use **12×12×6mm** or **12×12×6.5mm** buttons, or
+> carefully sand the stem tips down ~0.5mm before assembly. Test-fit the buttons in the case
+> before soldering them to the proto board.
 
 > [!NOTE]
 > No audio amplifier or speaker is needed for this build. Audio support may be added in a future revision.
+
+---
+
+### Physical Assembly
+
+#### Overview
+
+The Pi Zero is soldered **directly to the proto board** (no 40-pin header) using short wire
+bridges. This keeps the total stack height to ~7.5mm, which fits inside the 13mm bottom cavity
+with clearance.
+
+```
+Bottom shell cavity (13mm deep)
+  └── Proto board (1.6mm)
+      └── Wire bridges (2mm)
+          └── Pi Zero PCB (1.4mm)
+              └── USB Micro-B connectors (2.5mm, bottom edge only)
+                                                Total stack: ~7.5mm
+```
+
+#### Step 1 — Prepare the proto board
+
+1. Cut the 5×7cm proto board to **65×50mm** if you want a tighter fit, or leave full-size
+   (70×50mm) — both fit inside the case footprint (available X = 85→150mm = 65mm, Y = full width).
+2. Mark the positions of the two Pi Zero mounting holes on the proto board. The Pi Zero's
+   mounting holes are 3.5mm diameter, spaced **58mm × 23mm** centre-to-centre
+   (at 3.5mm from each corner of the 65×30mm PCB edge).
+
+#### Step 2 — Mount the Pi Zero to the proto board
+
+1. Lay the Pi Zero face-up on the proto board, aligning the mounting holes.
+2. Solder short (~10mm) wire bridges from each of the Pi Zero's 40 GPIO pads to the nearest
+   proto board through-holes. You only need to bridge the pins you are actually using
+   (see wiring table below) — you do not need to bridge all 40 pins.
+3. **Minimum required bridges:**
+   - Pin 1 (3.3V) — for display VCC
+   - Pin 2 or 4 (5V) — not used in this build, skip
+   - All GND pins used (Pin 6, Pin 20, Pin 14 — connect together on proto board)
+   - All signal pins from the wiring tables (SPI + GPIO buttons)
+4. Use a thin bead of **epoxy or hot glue** along the Pi Zero short edges to mechanically
+   bond it to the proto board once you are satisfied with the wiring.
+
+#### Step 3 — Wire the display
+
+Run 28 AWG wires from the ILI9341 module directly to the proto board pads corresponding to
+each GPIO pin. Keep wires short — route them flat against the proto board before entering the
+case. The display module sits inside the top shell, held in place by the screen window bezel.
+
+> [!TIP]
+> Solder the display wires **last**, after the Pi Zero is bonded and all button wires are run.
+> The display wires cross the case interior and need to be the correct length to reach the module
+> without pulling tight or bunching up.
+
+#### Step 4 — Wire the buttons
+
+Each button has four legs in a 12×12mm square pattern; legs on opposite sides are internally
+connected. Solder one leg to a GND rail on the proto board and the diagonal leg to the
+corresponding GPIO wire. Buttons sit in the top shell button holes — route wires down through
+the parting line gap and to the proto board.
+
+> [!TIP]
+> Use a 10cm length of wire per button before trimming. After a test fit inside the case,
+> trim to the correct length and re-solder.
+
+#### Step 5 — Seat in the case
+
+1. Place the assembled proto board (Pi Zero face-up) into the **bottom shell**, positioning it
+   so the Pi Zero USB PWR and OTG port openings align with the two Micro-USB cutouts on the
+   bottom edge of the case.
+   - Pi Zero left edge should align with approximately **X = 85mm** from the left end of the case.
+2. Secure with **2× M2.5 × 6mm self-tapping screws** through the case floor standoffs into the
+   Pi Zero mounting holes. Alternatively, use **3M VHB double-sided tape** under the proto board.
+3. Route the ILI9341 module wires up to the top shell, then press-fit the display module into
+   the screen window bezel.
+4. Snap the top and bottom shells together. The shells are held by friction clips; no screws needed.
 
 ---
 
