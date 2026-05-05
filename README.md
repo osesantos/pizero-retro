@@ -210,52 +210,81 @@ Each button connects between a GPIO pin and GND. The Pi's internal pull-up resis
 
 ### Step 2 - Configure the SPI Display
 
-The ILI9341 display is driven via the kernel's `fbtft` framebuffer driver, enabled through a device tree overlay.
+The ILI9341 display is driven by [`fbcp-ili9341`](https://github.com/juj/fbcp-ili9341) — a userspace SPI display driver that reads `/dev/fb0` (the HDMI virtual framebuffer) and pushes it directly to the ILI9341 over `/dev/spidev0.0`. This requires no kernel module or device tree overlay, and works on all Pi kernel versions.
 
-1. Mount the SD card on your PC, or SSH/edit directly on the Pi, and open `/boot/config.txt`.
+> [!NOTE]
+> The `dtoverlay=fbtft,...` and `fbtft_device` module approaches both fail on the kernel version (`5.10.x`) shipped with current RetroPie for Pi Zero. Use `fbcp-ili9341` instead.
 
-2. Add the following lines at the end of the file:
+#### 2a — Enable SPI and set the HDMI virtual resolution
+
+Mount the SD card on your PC, or SSH/edit directly on the Pi, and open `/boot/config.txt`. Append the contents of `config/boot_config.txt` from this repo (or copy the lines below):
 
 ```
-# Enable SPI
+# Enable SPI bus (required for the ILI9341 display)
 dtparam=spi=on
 
-# ILI9341 display via fbtft
-dtoverlay=fbtft,spi0-0,ili9341,speed=32000000,fps=60,bgr=1,reset_pin=25,dc_pin=24,rotate=90
+# Force HDMI output at 320x240.
+# fbcp-ili9341 reads /dev/fb0 and pushes it directly to the ILI9341 over SPI.
+# These settings are required even if no HDMI monitor is connected.
+hdmi_force_hotplug=1
+hdmi_group=2
+hdmi_mode=87
+hdmi_cvt=320 240 60 1 0 0 0
 ```
 
-3. To redirect the framebuffer output from the HDMI (`/dev/fb0`) to the SPI display (`/dev/fb1`), install `fbcp`:
+#### 2b — Install fbcp-ili9341
+
+SSH into the Pi and run:
 
 ```bash
 sudo apt update
 sudo apt install -y cmake
-git clone https://github.com/tasanakorn/rpi-fbcp
-cd rpi-fbcp
+git clone https://github.com/juj/fbcp-ili9341.git
+cd fbcp-ili9341
 mkdir build && cd build
-cmake ..
-make
-sudo install fbcp /usr/local/bin/fbcp
+cmake -DILI9341=ON \
+      -DSPI_BUS_CLOCK_DIVISOR=6 \
+      -DGPIO_TFT_DATA_CONTROL=24 \
+      -DGPIO_TFT_RESET_PIN=25 \
+      -DDISPLAY_ROTATE_180_DEGREES=ON \
+      -DBACKLIGHT_CONTROL=OFF \
+      -DSTATISTICS=0 \
+      ..
+make -j$(nproc)
+sudo install fbcp-ili9341 /usr/local/bin/fbcp-ili9341
 ```
 
-4. Make `fbcp` start at boot by adding it to `/etc/rc.local` before `exit 0`:
+Parameter notes:
+- `-DILI9341=ON` — selects the ILI9341 driver
+- `-DSPI_BUS_CLOCK_DIVISOR=6` — sets SPI clock to `core_freq / 6` ≈ 66 MHz (safe default; increase divisor if you see corruption)
+- `-DGPIO_TFT_DATA_CONTROL=24` — DC pin = GPIO24 (Pin 18)
+- `-DGPIO_TFT_RESET_PIN=25` — RESET pin = GPIO25 (Pin 22)
+- `-DDISPLAY_ROTATE_180_DEGREES=ON` — landscape orientation; swap for `OFF` if the image is upside-down
+- `-DBACKLIGHT_CONTROL=OFF` — backlight is wired directly to 3.3V, not a GPIO
+- `-DSTATISTICS=0` — disables on-screen FPS overlay
+
+#### 2c — Test before enabling autostart
+
+Run it manually first to confirm the display works:
 
 ```bash
-fbcp &
+sudo fbcp-ili9341
 ```
 
-5. Set the resolution to match the display in `/boot/config.txt`:
+The RetroPie interface should appear on the screen. Press `Ctrl+C` to stop.
 
+#### 2d — Enable autostart at boot
+
+Add to `/etc/rc.local` before `exit 0`:
+
+```bash
+/usr/local/bin/fbcp-ili9341 &
 ```
-hdmi_group=2
-hdmi_mode=87
-hdmi_cvt=320 240 60 1 0 0 0
-hdmi_force_hotplug=1
-```
 
-6. Reboot. The RetroPie interface should appear on the SPI display.
+Reboot. The RetroPie interface should appear on the SPI display on every boot.
 
-> [!NOTE]
-> `bgr=1` corrects the blue/red channel swap common on ILI9341 modules. Remove it if colours look correct without it.
+> [!TIP]
+> If colours look wrong (red/blue swapped), add `-DCOLOR_ORDER_BGR=ON` to the `cmake` command and recompile. If the image is mirrored, swap `-DDISPLAY_ROTATE_180_DEGREES` between `ON` and `OFF`.
 
 ---
 
