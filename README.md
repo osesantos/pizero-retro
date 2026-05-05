@@ -281,6 +281,12 @@ Add to `/etc/rc.local` before `exit 0`:
 /usr/local/bin/fbcp-ili9341 &
 ```
 
+If a previous `fbcp &` line exists in `/etc/rc.local`, replace it rather than adding a second line:
+
+```bash
+sudo sed -i 's|fbcp &|/usr/local/bin/fbcp-ili9341 \&|' /etc/rc.local
+```
+
 Reboot. The RetroPie interface should appear on the SPI display on every boot.
 
 > [!TIP]
