@@ -124,16 +124,18 @@ difference() {
     // 1. Outer shell — expanded footprint
     rounded_box(case_w, case_h, top_depth, corner_r);
 
-    // All interior geometry is offset by [expand, expand] so that
-    // PCB-relative positions are preserved inside the larger shell.
-    translate([expand, expand, 0]) {
+    // 2. Inner cavity — side walls are exactly `wall` (2 mm) thick around the
+    //    full expanded footprint. The face plate (Z = 0 → wall) covers the full
+    //    152 × 70 mm, so the 3 mm `expand` overhang exists only on the face.
+    translate([wall, wall, wall])
+        rounded_box(case_w - 2 * wall,
+                    case_h - 2 * wall,
+                    top_depth - wall + eps,
+                    inner_r);
 
-        // 2. Inner cavity — floor at Z = wall, open at parting face (Z = top_depth)
-        translate([wall, wall, wall])
-            rounded_box(case_w - 2 * wall - 2 * expand,
-                        case_h - 2 * wall - 2 * expand,
-                        top_depth - wall + eps,
-                        inner_r);
+    // All face cutouts are offset by [expand, expand] so that PCB-relative
+    // positions are preserved on the expanded face plate.
+    translate([expand, expand, 0]) {
 
         // 3. Screen window — cut through face plate
         translate([screen_x, screen_y, -eps])
