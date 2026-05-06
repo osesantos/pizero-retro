@@ -358,7 +358,44 @@ sudo evtest
 # Select the retrogame device and press each button
 ```
 
-#### 3e — Configure EmulationStation input mapping
+#### 3e — Configure RetroArch input mapping
+
+The default RetroArch input config (`/opt/retropie/configs/all/retroarch.cfg`) maps player 1 to WASD-style keys, which do **not** match the key codes emitted by `retrogame`. You must update it to match the key codes from the table above, otherwise only Start will work in-game.
+
+Run the following to update the mappings and add a **Select + Start** hotkey combo to exit games:
+
+```bash
+sudo sed -i \
+  -e 's/^input_player1_a = .*/input_player1_a = "ctrl"/' \
+  -e 's/^input_player1_b = .*/input_player1_b = "alt"/' \
+  -e 's/^input_player1_select = .*/input_player1_select = "escape"/' \
+  -e 's/^input_player1_left = .*/input_player1_left = "left"/' \
+  -e 's/^input_player1_right = .*/input_player1_right = "right"/' \
+  -e 's/^input_player1_up = .*/input_player1_up = "up"/' \
+  -e 's/^input_player1_down = .*/input_player1_down = "down"/' \
+  /opt/retropie/configs/all/retroarch.cfg
+
+echo -e "\ninput_enable_hotkey = \"escape\"\ninput_exit_emulator = \"enter\"" | sudo tee -a /opt/retropie/configs/all/retroarch.cfg
+```
+
+This results in the following effective mapping:
+
+| Button | Key emitted by retrogame | RetroArch action |
+|--------|--------------------------|------------------|
+| A      | Left Ctrl                | A                |
+| B      | Left Alt                 | B                |
+| Up     | Up arrow                 | D-pad up         |
+| Down   | Down arrow               | D-pad down       |
+| Left   | Left arrow               | D-pad left       |
+| Right  | Right arrow              | D-pad right      |
+| Start  | Enter                    | Start            |
+| Select | Escape                   | Select           |
+| Select + Start | Escape + Enter   | **Exit game**    |
+
+> [!NOTE]
+> With `input_enable_hotkey = "escape"` set, Select becomes a modifier key for hotkey combos and no longer sends a bare ESC to the game. This is fine for all supported systems since Select is a game button, not an OS key.
+
+#### 3f — Configure EmulationStation input mapping
 
 On first launch (or after deleting the input config), EmulationStation will prompt you to map the controller. Press and hold any button to begin, then follow the on-screen prompts.
 
