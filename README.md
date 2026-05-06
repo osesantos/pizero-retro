@@ -296,50 +296,79 @@ Reboot. The RetroPie interface should appear on the SPI display on every boot.
 
 ### Step 3 - Configure GPIO Buttons
 
-RetroPie uses `mk_arcade_joystick_rpi` (or `GPIOnext`) to expose GPIO buttons as a gamepad to RetroArch.
+GPIO buttons are handled by [Adafruit's `retrogame`](https://github.com/adafruit/Adafruit-Retrogame) — a userspace daemon that reads GPIO pins and emits keyboard events via `/dev/uinput`, making the buttons visible to EmulationStation and RetroArch.
 
-#### Install mk_arcade_joystick_rpi
+#### 3a — Install retrogame
 
-```bash
-# From the RetroPie-Setup script:
-# Main Menu → Manage Packages → Manage driver packages → gpio-joystick → Install
-```
-
-Or manually:
+SSH into the Pi and run:
 
 ```bash
-git clone https://github.com/recalbox/mk_arcade_joystick_rpi
-cd mk_arcade_joystick_rpi
-sudo ./install.sh
+sudo apt-get install -y git
+git clone https://github.com/adafruit/Adafruit-Retrogame.git
+cd Adafruit-Retrogame
+make
+sudo cp retrogame /usr/local/bin/retrogame
 ```
 
-#### Load the module with your GPIO mapping
+#### 3b — Install the GPIO config file
 
-Map the buttons to the GPIO numbers you wired. The order expected by `mk_arcade_joystick_rpi` is:
-
-`up, down, left, right, start, select, a, b`
-
-Using the pin assignments from the [Tactile Buttons](#tactile-buttons) table above:
+Copy `config/retrogame.cfg` from this repo to `/boot/retrogame.cfg` on the Pi:
 
 ```bash
-sudo modprobe mk_arcade_joystick_rpi map=1 gpio=13,19,16,20,21,26,5,6
+sudo cp retrogame.cfg /boot/retrogame.cfg
 ```
 
-To make this permanent, add to `/etc/modules`:
+The config maps each button to a key code using the GPIO numbers from the [Tactile Buttons](#tactile-buttons) table:
 
+| Button | GPIO | Key emitted |
+|--------|------|-------------|
+| A      | 5    | Left Ctrl   |
+| B      | 6    | Left Alt    |
+| Up     | 13   | Up arrow    |
+| Down   | 19   | Down arrow  |
+| Left   | 16   | Left arrow  |
+| Right  | 20   | Right arrow |
+| Start  | 21   | Enter       |
+| Select | 26   | Escape      |
+
+> [!NOTE]
+> `/boot/retrogame.cfg` is watched live by the daemon — edits take effect immediately without restarting `retrogame`.
+
+#### 3c — Enable autostart at boot
+
+Add to `/etc/rc.local` before `exit 0`:
+
+```bash
+/usr/local/bin/retrogame &
 ```
-mk_arcade_joystick_rpi
+
+Reboot and confirm it is running:
+
+```bash
+ps aux | grep retrogame
 ```
 
-And create `/etc/modprobe.d/mk_arcade_joystick_rpi.conf`:
+#### 3d — Test button events
 
+Install `evtest` and verify events are emitted when buttons are pressed:
+
+```bash
+sudo apt-get install -y evtest
+sudo evtest
+# Select the retrogame device and press each button
 ```
-options mk_arcade_joystick_rpi map=1 gpio=13,19,16,20,21,26,5,6
+
+#### 3e — Configure EmulationStation input mapping
+
+On first launch (or after deleting the input config), EmulationStation will prompt you to map the controller. Press and hold any button to begin, then follow the on-screen prompts.
+
+To reset the mapping and start over:
+
+```bash
+rm /opt/retropie/configs/all/emulationstation/es_input.cfg
 ```
 
-#### Configure RetroArch
-
-On first launch, EmulationStation will prompt you to configure the controller. Press and hold any button to begin, then follow the on-screen mapping.
+Then restart EmulationStation — it will re-prompt for input configuration automatically.
 
 ---
 
