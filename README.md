@@ -1,19 +1,3 @@
-<h1 align="center">
-  <br>
-  <img src="https://raw.githubusercontent.com/Shim06/Anemoia/main/assets/Anemoia.png" alt="Anemoia" width="150">
-  <br>
-  <b>Anemoia-PiZero</b>
-  <br>
-</h1>
-
-<p align="center">
-  Anemoia-PiZero is a fork of <a href="https://github.com/Shim06/Anemoia-ESP32">Anemoia-ESP32</a>, adapted to run on a <strong>Raspberry Pi Zero</strong> using <strong>RetroPie</strong>.  
-  It reuses the original 3D-printed enclosure and tactile button layout, replacing the ESP32 with a Pi Zero and dropping the battery for a USB-powered build.  
-  The display is an ILI9341-based SPI TFT (240×320), driven via the Pi's SPI interface.
-</p>
-
----
-
 ## Table of Contents
 
 - [Differences from Anemoia-ESP32](#differences-from-anemoia-esp32)
